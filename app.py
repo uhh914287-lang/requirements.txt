@@ -15,30 +15,9 @@ else:
 if GENAI_API_KEY and GENAI_API_KEY != "ضع_مفتاح_جوجل_الخاص_بك_هنا":
     genai.configure(api_key=GENAI_API_KEY)
 
-# Modern CSS UI
-st.markdown("""
-<style>
-    @import url('https://googleapis.com');
-    html, body, [data-testid="stSidebar"] { font-family: 'Cairo', sans-serif; text-align: right; direction: rtl; }
-    .hero-section { background: linear-gradient(135deg, #1e3d59 0%, #17b978 100%); padding: 40px; border-radius: 20px; color: white; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
-    .main-title { font-size: 2.6rem; font-weight: bold; margin-bottom: 10px; }
-    .sub-title { font-size: 1.2rem; opacity: 0.9; }
-    .course-card { background-color: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 6px 12px rgba(0,0,0,0.05); border-left: 6px solid #17b978; margin-bottom: 20px; transition: transform 0.3s; }
-    .course-card:hover { transform: translateY(-5px); }
-    .course-title { color: #1e3d59; font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; text-align: right; }
-    .course-desc { color: #666666; font-size: 1rem; margin-bottom: 15px; text-align: right; line-height: 1.6; }
-    .btn-link { background-color: #17b978; color: white !important; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; transition: 0.3s; }
-    .btn-link:hover { background-color: #149662; }
-</style>
-""", unsafe_allowed_html=True)
-
-# Main Header
-st.markdown("""
-<div class="hero-section">
-    <div class="main-title">🇾🇪 أكاديمية السعيدة الدولية للغات</div>
-    <div class="sub-title">أول منصة يمنية وعربية مدعومة بالذكاء الاصطناعي لتعليم الإنجليزية من الصفر</div>
-</div>
-""", unsafe_allowed_html=True)
+# Modern Custom UI via text markdown
+st.markdown("<h1 style='text-align:center; color:#1e3d59;'>🇾🇪 أكاديمية السعيدة الدولية للغات</h1>", unsafe_allowed_html=True)
+st.markdown("<p style='text-align:center; color:#555;'>أول منصة يمنية وعربية مدعومة بالذكاء الاصطناعي لتعليم الإنجليزية من الصفر</p>", unsafe_allowed_html=True)
 
 # Sidebar Menu
 st.sidebar.markdown("### 🌐 لوحة التحكم التعليمية")
@@ -63,7 +42,7 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
                 response = model.generate_content(user_query)
                 st.info(response.text)
                 
-                clean_text = response.text.replace('\n', ' ').replace('"', '\\"').replace("'", "\\'")
+                clean_text = response.text.replace('\n', ' ').replace('\n', ' ').replace('"', '\\"').replace("'", "\\'")
                 st.components.v1.html(f"""
                     <script>
                     var speech = new SpeechSynthesisUtterance("{clean_text}");
@@ -86,12 +65,12 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
     st.warning(f"🎙️ الجملة المطلوب قراءتها الآن بصوتك: **{test_sentence}**")
     
     mic_js = f"""
-    <div style="text-align: center; font-family: 'Cairo', sans-serif; margin-top: 10px;">
-        <button id="micBtn" style="background-color: #17b978; color: white; border: none; padding: 15px 35px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(23,185,120,0.3); transition: 0.3s;">
+    <div style="text-align: center; margin-top: 10px;">
+        <button id="micBtn" style="background-color: #17b978; color: white; border: none; padding: 15px 35px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold;">
             🎤 اضغط هنا وتحدث بالجملة بوضوح
         </button>
-        <p id="status" style="color: #666; margin-top: 12px; font-size: 14px;">اضغط على الزر وابدأ النطق؛ سيقوم الذكاء الاصطناعي بتقييم مخارج الحروف فوراً...</p>
-        <div id="resultBox" style="margin-top: 15px; padding: 15px; border-radius: 12px; display: none; background-color: #f8f9fa; border: 1px solid #e0e0e0; direction: ltr; text-align: left;">
+        <p id="status" style="color: #666; margin-top: 12px;">اضغط على الزر وابدأ النطق الفوري...</p>
+        <div id="resultBox" style="margin-top: 15px; padding: 15px; border-radius: 12px; display: none; background-color: #f8f9fa; direction: ltr; text-align: left;">
             <p><b>Your Spoken Text:</b> <span id="userText" style="color: #1e3d59; font-weight: bold;"></span></p>
             <p><b>AI Evaluation:</b> <span id="score" style="font-weight: bold;"></span></p>
         </div>
@@ -106,7 +85,7 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {{
-        status.innerText = "المتصفح لا يدعم المايك المباشر، يرجى الفتح من متصفح Google Chrome.";
+        status.innerText = "المتصفح لا يدعم المايك، يرجى الفتح من متصفح Google Chrome.";
         micBtn.disabled = true;
     }} else {{
         const recognition = new SpeechRecognition();
@@ -114,21 +93,17 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
         micBtn.addEventListener('click', () => {{
             recognition.start();
             status.innerText = "🎙️ جاري الاستماع لنطقك... تحدث الآن...";
-            micBtn.style.backgroundColor = "#d32f2f";
         }});
         recognition.addEventListener('result', (e) => {{
             const result = e.results.transcript;
             userTextSpan.innerText = result;
             if (result.toLowerCase().trim() === target) {{
-                scoreSpan.innerText = "🟢 Perfect Pronunciation (100%)! Excellent job.";
-                scoreSpan.style.color = "green";
+                scoreSpan.innerText = "🟢 Perfect Pronunciation (100%)!";
             }} else {{
-                scoreSpan.innerText = "🟡 Good Attempt! Some words were mispronounced. Try again focusing on clarity.";
-                scoreSpan.style.color = "#f57c00";
+                scoreSpan.innerText = "🟡 Good Attempt! Try again focusing on clarity.";
             }}
             resultBox.style.display = "block";
-            status.innerText = "تم تحليل النطق بنجاح!";
-            micBtn.style.backgroundColor = "#17b978";
+            status.innerText = "تم تحليل النطق!";
         }});
     }}
     </script>
@@ -137,27 +112,13 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
 
 elif menu == "📚 المكتبة الذهبية العالمية":
     st.subheader("📚 المناهج الحصرية المعتمدة عالمياً ومجاناً 100%")
-    
-    st.markdown("""
-    <div class="course-card">
-        <div class="course-title">🇺🇸 كورس اللغة الإنجليزية المهنية المعتمد - جامعة بنسلفانيا والخارجية الأمريكية</div>
-        <div class="course-desc">منهج متكامل لتعليم مهارات الأعمال، كتابة السير الذاتية الاحترافية، والخطابة الإقليمية. الكورس مجاني بالكامل ويمنح شهادة رسمية عند إتمامه عبر منصة Coursera العالمية.</div>
-        <a href="https://coursera.org" target="_blank" class="btn-link">🔗 ابدأ التسجيل المجاني فورا</a>
-    </div>
-    """, unsafe_allowed_html=True)
-    
-    st.markdown("""
-    <div class="course-card">
-        <div class="course-title">🇬🇧 مسارات الإتقان اللغوي الشامل - British Council</div>
-        <div class="course-desc">محتوى تفاعلي مصنف من المستوى المبتدئ (A1) حتى المتقدم (C2)، يحتوي على اختبار تحديد مستوى دولي مجاني، ومئات الأنشطة التفاعلية للاستماع والقواعد.</div>
-        <a href="https://britishcouncil.org" target="_blank" class="btn-link">🔗 ابدأ اختبار المستوى والدراسة الحرة</a>
-    </div>
-    """, unsafe_allowed_html=True)
+    st.info("💡 تم ربط المنصة مباشرة بأقوى المسارات العالمية المفتوحة للدراسة الحرة واستخراج الشهادات الدولية:")
+    st.markdown("[🇺🇸 اضغط هنا للتسجيل الفوري في كورس الخارجية الأمريكية وجامعة بنسلفانيا مجاناً](https://coursera.org)")
+    st.markdown("[🇬🇧 اضغط هنا لفتح منصة اختبار المستوى والدراسة التفاعلية من British Council مجاناً](https://britishcouncil.org)")
 
 elif menu == "📜 بوابة الشهادات المعتمدة":
     st.subheader("📜 نظام التوثيق وإصدار الشهادات الأكاديمية الفورية")
-    
-    student_name = st.text_input("اكتب اسمك الثلاثي باللغة الإنجليزية بدقة (كما تود رؤيته في الشهادة):")
+    student_name = st.text_input("اكتب اسمك الثلاثي باللغة الإنجليزية بدقة:")
     
     if st.button("اصدار وتوليد الشهادة الفاخرة 📄"):
         if student_name:
@@ -165,15 +126,19 @@ elif menu == "📜 بوابة الشهادات المعتمدة":
             random_id = random.randint(50000, 99999)
             current_date = datetime.now().strftime("%Y-%m-%d")
             
-            # تم إزالة الـ f وحل مشكلة التعارض بشكل نهائي هنا
-            certificate_template = """
-            <div style="border:15px double #1e3d59; padding:40px; text-align:center; background-color:#fcfaf2; color:#1e3d59; direction: ltr; font-family: 'Times New Roman', serif; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                <div style="text-align: center; margin-bottom: 10px;">
-                    <span style="font-size: 35px;">👑</span>
-                </div>
-                <h1 style="color:#1e3d59; margin:0; font-size: 2.8rem; letter-spacing: 2px;">AL-SAEEDA INTERNATIONAL ACADEMY</h1>
-                <h4 style="color:#17b978; margin:5px 0; font-size: 1.1rem; letter-spacing: 1px;">THE FIRST INTERACTIVE AI PLATFORM IN YEMEN</h4>
-                <hr style="border: 2px dashed #1e3d59; width: 85%; margin: 25px auto;">
-                <h2 style="font-style: italic; font-weight: normal; font-size: 2rem; color: #555;">Certificate of Achievement</h2>
-                <p style="font-size: 1.3rem; margin: 20px 0;">This academic credential is proudly conferred upon</p>
-                <h1 style="font-size: 3.2rem; color: #1e3d59; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);"><b>{NAME}</b></h1>
+            # عرض الشهادة الاحترافي الجديد والآمن تماماً من أخطاء الترجمة وعلامات الاقتباس
+            st.success("🎉 تم توليد واعتماد شهادتك الأكاديمية بنجاح:")
+            st.code(f"==================================================\n"
+                    f"          AL-SAEEDA INTERNATIONAL ACADEMY         \n"
+                    f"    FIRST INTERACTIVE AI PLATFORM IN YEMEN       \n"
+                    f"==================================================\n\n"
+                    f"CERTIFICATE OF ACHIEVEMENT\n\n"
+                    f"This credential is proudly conferred upon:\n"
+                    f"👉 {student_name.upper()} 👈\n\n"
+                    f"For successfully completing the Advanced Interactive\n"
+                    f"English Course and Speech Pronunciation Evaluation via AI.\n\n"
+                    f"--------------------------------------------------\n"
+                    f"Date of Issue: {current_date} | ID: YEM-AI-{random_id}\n"
+                    f"==================================================")
+        else:
+            st.warning("يرجى كتابة الاسم باللغة الإنجليزية أولاً.")
