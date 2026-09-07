@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="أكاديمية السعيدة الإمبراطورية | Saba Cinema X",
@@ -7,7 +8,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# إخفاء عناصر ستريملايت الافتراضية للحصول على تجربة سينمائية نقية
 st.markdown("""
     <style>
         #MainMenu, footer, header { display: none !important; }
@@ -15,9 +15,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# واجهة التطبيق السينمائية الفائقة
-st.markdown("""
-<!DOCTYPE html>
+saba_cinema_app = """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -53,10 +51,7 @@ st.markdown("""
     </style>
 </head>
 <body class="min-h-screen w-full flex justify-center items-center p-0 sm:p-4">
-    
     <main class="w-full max-w-md h-screen sm:h-[95vh] flex flex-col neo-glass sm:rounded-[36px] overflow-hidden relative border border-amber-500/30">
-        
-        <!-- Header -->
         <header class="px-4 py-3 bg-black/80 border-b border-gray-800 flex items-center justify-between z-30">
             <div class="flex items-center gap-2.5">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-700 p-[1.5px]">
@@ -75,10 +70,7 @@ st.markdown("""
             <span class="text-[10px] bg-red-600/20 text-red-400 px-2.5 py-0.5 rounded-full border border-red-500/30 font-extrabold">ULTRA 4K</span>
         </header>
 
-        <!-- Content -->
         <div class="flex-1 overflow-y-auto no-scrollbar p-4 space-y-4">
-            
-            <!-- Hero Banner -->
             <div class="relative w-full h-44 rounded-2xl overflow-hidden border border-amber-500/30 p-4 flex flex-col justify-end bg-gradient-to-t from-black via-black/50 to-transparent">
                 <span class="text-[9px] bg-amber-500 text-black font-black px-2 py-0.5 rounded w-max mb-1 uppercase cinzel">عرض حصري</span>
                 <h2 class="text-sm font-black text-white cinzel">Wall Street & Tech Negotiation</h2>
@@ -88,7 +80,6 @@ st.markdown("""
                 </button>
             </div>
 
-            <!-- Horizontal Scroll (Netflix style) -->
             <div>
                 <h3 class="text-xs font-black text-amber-300 mb-2 cinzel">🎥 مسلسلات وأفلام لغوية</h3>
                 <div class="flex gap-3 overflow-x-auto no-scrollbar pb-1">
@@ -100,14 +91,9 @@ st.markdown("""
                         <span class="text-[9px] bg-amber-600 text-white px-1.5 py-0.5 rounded w-max">ريادة</span>
                         <h4 class="text-xs font-bold text-white">TED Business</h4>
                     </div>
-                    <div class="min-w-[120px] h-32 rounded-xl net-card p-2.5 flex flex-col justify-between cursor-pointer">
-                        <span class="text-[9px] bg-red-600 text-white px-1.5 py-0.5 rounded w-max">سفر</span>
-                        <h4 class="text-xs font-bold text-white">Airport Survival</h4>
-                    </div>
                 </div>
             </div>
 
-            <!-- Voice Lab -->
             <div class="neo-glass p-3.5 rounded-2xl border border-amber-500/20 space-y-2 text-center">
                 <span class="text-[10px] text-amber-400 font-bold">مختبر النطق والذكاء الاصطناعي الفائق</span>
                 <p class="text-[11px] text-gray-300">"Artificial Intelligence empowers global communication."</p>
@@ -115,10 +101,8 @@ st.markdown("""
                     🎙️ اضغط لاختبار نطقك فوراً
                 </button>
             </div>
-
         </div>
 
-        <!-- Footer Nav -->
         <nav class="grid grid-cols-4 bg-black/90 border-t border-gray-800 p-2 text-[10px] font-bold text-center text-amber-400">
             <div>🏠 الرئيسية</div>
             <div class="text-gray-400">📚 المكتبة</div>
@@ -126,10 +110,8 @@ st.markdown("""
             <div class="text-gray-400">👑 الإمبراطور</div>
         </nav>
     </main>
-
-    <script>
-        lucide.createIcons();
-    </script>
+    <script>lucide.createIcons();</script>
 </body>
-</html>
-""", height=850, scrolling=False)
+</html>"""
+
+components.html(saba_cinema_app, height=850, scrolling=False)
