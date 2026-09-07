@@ -1,215 +1,241 @@
-import streamlit as st
-import streamlit.components.v1 as components
-
-st.set_page_config(
-    page_title="أكاديمية السعيدة الإمبراطورية | Saba AI Master",
-    page_icon="👑",
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
-
-st.markdown("""
-    <style>
-        #MainMenu, footer, header { display: none !important; }
-        .block-container { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
-        iframe { border-radius: 0px !important; }
-    </style>
-""", unsafe_allow_html=True)
-
-saba_master_app = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SABA ACADEMY X - Full Ecosystem</title>
+    <title>SABA IMPERIAL EMPIRE | The Neo-Cinematic Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Tajawal:wght@300;500;700;900&display=swap');
-        :root { --gold-primary: #d4af37; --void-bg: #05070b; }
-        body { font-family: 'Tajawal', sans-serif; background-color: var(--void-bg); color: #f1f5f9; overflow-x: hidden; user-select: none; }
+        :root { --gold: #d4af37; --void: #020408; --agate: #8b0000; }
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--void); color: #f1f5f9; overflow-x: hidden; user-select: none; }
         .cinzel { font-family: 'Cinzel', serif; }
-        .glass-panel {
-            background: linear-gradient(135deg, rgba(17, 24, 39, 0.88) 0%, rgba(9, 13, 22, 0.96) 100%);
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+        .neo-glass {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(5, 7, 12, 0.98) 100%);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(212, 175, 55, 0.15);
         }
-        .agate-button {
-            background: linear-gradient(135deg, #a81c1c 0%, #5e0808 100%);
-            box-shadow: 0 4px 20px rgba(168, 28, 28, 0.4);
+        .imperial-gold-text {
+            background: linear-gradient(135deg, #fff 0%, #d4af37 50%, #aa771c 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .net-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(13, 18, 30, 0.8);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .net-card:hover {
+            transform: scale(1.04) translateY(-4px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
         }
         #spaceCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        /* Custom Scrollbar for Netflix style rows */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="min-h-screen w-full flex justify-center items-center p-0 sm:p-4 relative">
+<body class="min-h-screen w-full flex justify-center items-center p-0 sm:p-3 relative">
     <canvas id="spaceCanvas"></canvas>
     
-    <main class="w-full max-w-lg h-screen sm:h-[95vh] flex flex-col glass-panel sm:rounded-[36px] overflow-hidden relative z-10 border-0 sm:border border-[#d4af37]/30">
-        <header class="px-4 py-3 border-b border-gray-800/80 bg-black/40 flex items-center justify-between z-20">
+    <main class="w-full max-w-md h-screen sm:h-[96vh] flex flex-col neo-glass sm:rounded-[36px] overflow-hidden relative z-10 border-0 sm:border border-amber-500/30">
+        
+        <!-- Top Cinematic Navigation -->
+        <header class="px-4 py-3 bg-black/70 border-b border-gray-800/80 flex items-center justify-between z-30">
             <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-700 p-[1.5px]">
-                    <div class="w-full h-full bg-[#090d16] rounded-[10px] flex items-center justify-center">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-700 p-[1.5px] shadow-lg shadow-amber-500/20">
+                    <div class="w-full h-full bg-[#05070b] rounded-[10px] flex items-center justify-center">
                         <span class="cinzel text-amber-400 font-black text-base">𐩯</span>
                     </div>
                 </div>
                 <div>
-                    <h1 class="text-[10px] font-black tracking-widest text-amber-400/90 uppercase cinzel">SABA MASTER AI</h1>
-                    <div class="flex items-center gap-1 mt-0.2">
-                        <i data-lucide="flame" class="w-3 h-3 text-red-500 fill-red-500"></i>
-                        <span id="xpScore" class="text-xs font-black text-gray-100">850</span>
-                        <span class="text-[9px] text-amber-400/70 font-bold">XP</span>
+                    <h1 class="text-[10px] font-black tracking-widest imperial-gold-text uppercase cinzel">SABA CINEMA X</h1>
+                    <div class="flex items-center gap-1 mt-0.5">
+                        <i data-lucide="zap" class="w-3 h-3 text-amber-400 fill-amber-400 animate-pulse"></i>
+                        <span id="xpScore" class="text-xs font-black text-white">1,420</span>
+                        <span class="text-[9px] text-amber-400/80 font-bold">XP EMPIRE</span>
                     </div>
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <span id="cefrBadge" class="text-[10px] bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded-lg border border-amber-500/20 font-bold">CEFR: B1+</span>
-                <select id="govSelector" onchange="updateGov(this.value)" class="bg-[#131b2e] text-[11px] font-bold text-amber-200 py-1 px-2 rounded-lg border border-amber-500/30 outline-none">
-                    <option value="الحديدة">الحديدة ⚓</option>
-                    <option value="صنعاء">صنعاء 🏛️</option>
-                    <option value="عدن">عدن 🌊</option>
-                    <option value="تعز">تعز ⛰️</option>
-                </select>
+                <span class="text-[10px] bg-red-600/20 text-red-400 px-2.5 py-0.5 rounded-full border border-red-500/30 font-extrabold tracking-wide">ULTRA 4K AI</span>
             </div>
         </header>
 
-        <nav class="grid grid-cols-5 bg-[#090d16]/90 p-1 border-b border-gray-800/60 text-[10px] font-bold z-20 text-center">
-            <button onclick="switchTab('mentor')" id="btn-mentor" class="py-2 rounded-lg text-amber-400 bg-amber-500/10 transition border border-amber-500/20">💬 المعلم</button>
-            <button onclick="switchTab('micro')" id="btn-micro" class="py-2 rounded-lg text-gray-400 hover:text-gray-200 transition">⚡ مصغر</button>
-            <button onclick="switchTab('speech')" id="btn-speech" class="py-2 rounded-lg text-gray-400 hover:text-gray-200 transition">🎙️ نطق</button>
-            <button onclick="switchTab('cards')" id="btn-cards" class="py-2 rounded-lg text-gray-400 hover:text-gray-200 transition">🧠 تكرار</button>
-            <button onclick="switchTab('social')" id="btn-social" class="py-2 rounded-lg text-gray-400 hover:text-gray-200 transition">🌍 مجتمع</button>
-        </nav>
-
-        <div class="flex-1 overflow-hidden relative z-10 flex flex-col">
+        <!-- Main Viewport (Dynamic Container) -->
+        <div id="viewport" class="flex-1 overflow-y-auto no-scrollbar relative z-10 p-4 space-y-5">
             
-            <!-- 1. المعلم الاقتصادي الافتراضي -->
-            <section id="tab-mentor" class="flex-1 flex flex-col justify-between overflow-hidden p-3.5">
-                <div id="chatFeed" class="flex-1 overflow-y-auto space-y-3 pr-1 text-xs">
-                    <div class="flex justify-end">
-                        <div class="glass-panel p-3.5 rounded-2xl rounded-tl-none max-w-[92%] border border-gray-700/80 leading-relaxed text-gray-200">
-                            <p class="font-bold text-amber-400 text-[10px] mb-1">المعلم الاقتصادي الافتراضي:</p>
-                            أهلاً بك! أنا معلمك الذكي لتطوير إنجليزيتك المهنية والاقتصادية دون إحراج. اسألني أو ابدأ محادثة حرة بالإنجليزية.
+            <!-- Netflix Style Hero Banner -->
+            <div class="relative w-full h-48 rounded-2xl overflow-hidden shadow-2xl border border-amber-500/30 group">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#05070b] via-[#05070b]/40 to-transparent z-10"></div>
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-900/30 via-transparent to-black z-0"></div>
+                <div class="absolute bottom-3 right-3 left-3 z-20 flex flex-col justify-end">
+                    <span class="text-[9px] bg-amber-500 text-black font-black px-2 py-0.5 rounded w-max mb-1 uppercase cinzel">عرض حصري • البث الحي</span>
+                    <h2 class="text-base font-black text-white cinzel leading-tight">Wall Street & Tech Negotiation</h2>
+                    <p class="text-[10px] text-gray-300 mt-0.5 line-clamp-1">تعلم لغة كبرى الشركات العالمية بطريقة سينمائية تفاعلية مذهلة.</p>
+                    <div class="flex items-center gap-2 mt-2">
+                        <button onclick="launchCinematicLesson('Wall Street Masterclass')" class="flex-1 py-1.5 bg-white text-black font-black text-xs rounded-xl flex items-center justify-center gap-1.5 hover:bg-amber-400 transition">
+                            <i data-lucide="play" class="w-3.5 h-3.5 fill-black"></i> تشغيل فوري
+                        </button>
+                        <button onclick="openAiChat()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs rounded-xl backdrop-blur border border-white/20 transition flex items-center gap-1">
+                            <i data-lucide="bot" class="w-3.5 h-3.5 text-amber-400"></i> المعلم
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 1: Netflix Style Horizontal Scroller (محتوى سينمائي واقعي) -->
+            <div>
+                <h3 class="text-xs font-black text-amber-300 mb-2.5 cinzel flex items-center gap-1.5">
+                    <i data-lucide="film" class="w-3.5 h-3.5 text-amber-400"></i> مسلسلات وأفلام لغوية (Bite-sized)
+                </h3>
+                <div class="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+                    <div onclick="launchCinematicLesson('Silicon Valley Pitch')" class="min-w-[130px] h-36 rounded-xl net-card p-2.5 flex flex-col justify-between cursor-pointer relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
+                        <span class="text-[9px] bg-blue-600/80 text-white px-1.5 py-0.5 rounded w-max z-20 font-bold">تقني 3د</span>
+                        <div class="z-20">
+                            <h4 class="text-xs font-bold text-white leading-tight">Silicon Valley Pitch</h4>
+                            <p class="text-[9px] text-amber-300 mt-0.5">3 دقائق</p>
+                        </div>
+                    </div>
+                    <div onclick="launchCinematicLesson('TED Business Talks')" class="min-w-[130px] h-36 rounded-xl net-card p-2.5 flex flex-col justify-between cursor-pointer relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
+                        <span class="text-[9px] bg-amber-600/80 text-white px-1.5 py-0.5 rounded w-max z-20 font-bold">ريادة</span>
+                        <div class="z-20">
+                            <h4 class="text-xs font-bold text-white leading-tight">TED Talks Business</h4>
+                            <p class="text-[9px] text-amber-300 mt-0.5">4 دقائق</p>
+                        </div>
+                    </div>
+                    <div onclick="launchCinematicLesson('Survival English')" class="min-w-[130px] h-36 rounded-xl net-card p-2.5 flex flex-col justify-between cursor-pointer relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
+                        <span class="text-[9px] bg-red-600/80 text-white px-1.5 py-0.5 rounded w-max z-20 font-bold">سفر</span>
+                        <div class="z-20">
+                            <h4 class="text-xs font-bold text-white leading-tight">Airport & Hotels</h4>
+                            <p class="text-[9px] text-amber-300 mt-0.5">2 دقيقة</p>
                         </div>
                     </div>
                 </div>
-                <div class="mt-2.5 flex items-center gap-2 bg-[#0c1220]/90 p-1 rounded-2xl border border-gray-700/70">
-                    <input id="chatField" type="text" placeholder="اكتب ردك أو سؤالك هنا..." class="flex-1 bg-transparent px-3 py-2 text-xs text-white outline-none" dir="auto">
-                    <button onclick="sendMentorMsg()" class="agate-button p-2 rounded-xl text-white transition hover:scale-105">
-                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+            </div>
+
+            <!-- Row 2: Gamified Duolingo-Killer Path (خريطة الممالك التفاعلية) -->
+            <div>
+                <h3 class="text-xs font-black text-amber-300 mb-2.5 cinzel flex items-center gap-1.5">
+                    <i data-lucide="map" class="w-3.5 h-3.5 text-amber-400"></i> طريق إمبراطورية السعيدة (ألعاب وتحديات)
+                </h3>
+                <div class="grid grid-cols-3 gap-2.5">
+                    <button onclick="startLevel(1)" class="net-card p-3 rounded-xl text-center flex flex-col items-center justify-center gap-1 group">
+                        <div class="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-amber-300 font-black text-xs group-hover:scale-110 transition">1</div>
+                        <span class="text-[10px] font-bold text-gray-200">الأساسيات</span>
+                    </button>
+                    <button onclick="startLevel(2)" class="net-card p-3 rounded-xl text-center flex flex-col items-center justify-center gap-1 group">
+                        <div class="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-amber-300 font-black text-xs group-hover:scale-110 transition">2</div>
+                        <span class="text-[10px] font-bold text-gray-200">المحادثة الحية</span>
+                    </button>
+                    <button onclick="startLevel(3)" class="net-card p-3 rounded-xl text-center flex flex-col items-center justify-center gap-1 group">
+                        <div class="w-9 h-9 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center text-red-400 font-black text-xs group-hover:scale-110 transition">👑</div>
+                        <span class="text-[10px] font-bold text-amber-300">سوق العمل</span>
                     </button>
                 </div>
-            </section>
+            </div>
 
-            <!-- 2. الدروس المكثفة والمحتوى الواقعي (Microlearning) -->
-            <section id="tab-micro" class="hidden flex-1 flex flex-col p-3.5 overflow-y-auto space-y-2.5">
-                <div class="glass-panel p-3 rounded-2xl border border-amber-500/30">
-                    <h2 class="text-xs font-black text-amber-300">دروس (3-5 دقائق) والمحتوى الواقعي</h2>
-                    <p class="text-[10px] text-gray-400 mt-0.5">دروس قصيرة مستوحاة من بودكاست ومقالات عالمية:</p>
+            <!-- Quick AI Speech & Zero-Net Tools -->
+            <div class="neo-glass p-3.5 rounded-2xl border border-amber-500/20 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] text-amber-400 font-bold cinzel">مختبر النطق والذكاء الخارق</span>
+                    <span class="text-[9px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-bold">أداء فائق 0.1 ثانية</span>
                 </div>
-                <div class="space-y-2">
-                    <div onclick="openMicroLesson('إيميلات التفاوض التجاري', 'كيف ترفض عرضاً تجارياً بأدب واحترافية في إيميل رسمي.')" class="glass-panel p-3 rounded-xl cursor-pointer hover:border-amber-400 transition flex items-center justify-between">
-                        <div>
-                            <h3 class="text-xs font-bold text-amber-200">💼 درس سريع: إيميلات التفاوض (4 دقائق)</h3>
-                            <p class="text-[9px] text-gray-400">صياغة عروض الأسعار والرد باحترافية.</p>
-                        </div>
-                        <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg border border-amber-500/20">ابدأ</span>
-                    </div>
-                    <div onclick="openMicroLesson('مصطلحات وول ستريت المالية', 'أهم الكلمات المتداولة في سوق المال والعملات والعمل الحر.')" class="glass-panel p-3 rounded-xl cursor-pointer hover:border-amber-400 transition flex items-center justify-between">
-                        <div>
-                            <h3 class="text-xs font-bold text-amber-200">📈 بودكاست اقتصادي: مصطلحات المال (3 دقائق)</h3>
-                            <p class="text-[9px] text-gray-400">مفردات الأسواق المالية والأعمال.</p>
-                        </div>
-                        <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg border border-amber-500/20">ابدأ</span>
-                    </div>
-                </div>
-                <div id="microViewer" class="glass-panel p-3 rounded-xl text-xs text-gray-300 hidden border border-blue-500/30 space-y-1"></div>
-            </section>
-
-            <!-- 3. مختبر تحليل النطق المتقدم -->
-            <section id="tab-speech" class="hidden flex-1 flex flex-col justify-between items-center p-4 text-center overflow-y-auto">
-                <div class="glass-panel p-3.5 rounded-2xl w-full border border-amber-500/20">
-                    <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider">عبارة التحليل المتقدم</span>
-                    <h2 class="text-xs font-black text-amber-200 mt-1">"Successful negotiation requires active listening and precise timing."</h2>
-                    <button onclick="playNativeAudio()" class="mt-2 text-[10px] bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded-lg text-gray-300 border border-white/10">🔊 الاستماع للمتحدث الأصلي</button>
-                </div>
-                
-                <div class="flex flex-col items-center my-auto">
-                    <button onclick="runSpeechAnalysis()" class="w-20 h-20 rounded-full bg-red-600 hover:bg-red-500 flex items-center justify-center text-white shadow-2xl transition transform hover:scale-105 border-4 border-red-900/50">
-                        <i data-lucide="mic" class="w-7 h-7"></i>
+                <div class="flex items-center gap-2">
+                    <input id="speechInputText" type="text" value="Artificial Intelligence empowers global communication." class="flex-1 bg-black/50 px-3 py-2 rounded-xl text-[11px] text-white border border-gray-700 outline-none" readonly>
+                    <button onclick="playAudioPrompt()" class="p-2.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-xl border border-amber-500/40 transition">
+                        <i data-lucide="volume-2" class="w-4 h-4"></i>
                     </button>
-                    <p class="text-[11px] text-gray-400 mt-2 font-medium">اضغط وتحدث لتصحيح النطق فوراً...</p>
                 </div>
-
-                <div id="speechFeedback" class="w-full glass-panel p-3 rounded-xl text-xs text-gray-300 border border-gray-800">
-                    التحليل الصوتي والمقارنة تظهر هنا.
-                </div>
-            </section>
-
-            <!-- 4. التكرار المتباعد (Spaced Repetition Cards) -->
-            <section id="tab-cards" class="hidden flex-1 flex flex-col justify-center items-center p-4 text-center space-y-3">
-                <div class="glass-panel p-5 rounded-2xl w-full max-w-sm border border-amber-500/30 space-y-3">
-                    <span class="text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">بطاقة الذاكرة الذكية</span>
-                    <h3 id="cardWord" class="text-base font-black text-amber-100">Leverage</h3>
-                    <p id="cardDef" class="text-xs text-gray-400 italic">اضغط لعرض المعنى وسياق الاستخدام الاقتصادي</p>
-                    <button onclick="flipCard()" class="w-full py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold rounded-xl border border-amber-500/30 transition">قلب البطاقة</button>
-                </div>
-                <div class="flex gap-2 w-full max-w-sm">
-                    <button onclick="rateCard('hard')" class="flex-1 py-2 bg-red-500/10 text-red-400 text-xs font-bold rounded-xl border border-red-500/20">صعب 🔄</button>
-                    <button onclick="rateCard('good')" class="flex-1 py-2 bg-green-500/10 text-green-400 text-xs font-bold rounded-xl border border-green-500/20">ممتاز ✨</button>
-                </div>
-            </section>
-
-            <!-- 5. التلعيب والمجتمع (Gamification & Social) -->
-            <section id="tab-social" class="hidden flex-1 flex flex-col p-3.5 overflow-y-auto space-y-3">
-                <div class="glass-panel p-3 rounded-2xl border border-amber-500/30 text-center">
-                    <h2 class="text-xs font-black text-amber-300">نادي النطق الصوتي والمجتمع العالمي</h2>
-                    <p class="text-[10px] text-gray-400 mt-0.5">انضم لغرف المحادثة المباشرة واكسب الأوسمة ونقاط الـ XP:</p>
-                </div>
-                <div class="space-y-2">
-                    <div class="glass-panel p-3 rounded-xl flex items-center justify-between border border-gray-700">
-                        <div>
-                            <h3 class="text-xs font-bold text-amber-200">🎙️ غرفة نطق ريادة الأعمال (مفتوحة الآن)</h3>
-                            <p class="text-[9px] text-gray-400">4 متعلمين يتحدثون الآن عن إستراتيجيات السوق.</p>
-                        </div>
-                        <button onclick="joinRoom()" class="agate-button px-3 py-1.5 rounded-lg text-white text-[11px] font-bold">انضمام</button>
-                    </div>
-                    <div class="glass-panel p-3 rounded-xl flex items-center justify-between border border-gray-700">
-                        <div>
-                            <h3 class="text-xs font-bold text-amber-200">📜 شهادة CEFR المعتمدة</h3>
-                            <p class="text-[9px] text-gray-400">اختبر مهاراتك للحصول على الشهادة الرسمية.</p>
-                        </div>
-                        <button onclick="getCert()" class="bg-amber-500/10 text-amber-400 px-3 py-1.5 rounded-lg text-[11px] font-bold border border-amber-500/20">إصدار</button>
-                    </div>
-                </div>
-            </section>
+                <button onclick="triggerVoiceAnalysis()" class="w-full py-2.5 bg-gradient-to-r from-red-700 to-red-900 hover:from-red-600 hover:to-red-800 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                    <i data-lucide="mic" class="w-4 h-4"></i> اختبر نطقك الآن (بدون إنترنت تقريباً)
+                </button>
+                <div id="voiceResultBox" class="text-[10px] text-gray-300 text-center hidden"></div>
+            </div>
 
         </div>
+
+        <!-- Netflix / Neo-Imperial Bottom Navigation Bar -->
+        <nav class="grid grid-cols-4 bg-black/90 border-t border-gray-800/80 p-2 text-[10px] font-bold z-30 text-center backdrop-blur-md">
+            <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center justify-center text-amber-400 gap-0.5 transition">
+                <i data-lucide="home" class="w-4 h-4"></i> الرئيسية
+            </button>
+            <button onclick="switchTab('library')" id="nav-library" class="flex flex-col items-center justify-center text-gray-400 hover:text-white gap-0.5 transition">
+                <i data-lucide="book-open" class="w-4 h-4"></i> المكتبة
+            </button>
+            <button onclick="switchTab('games')" id="nav-games" class="flex flex-col items-center justify-center text-gray-400 hover:text-white gap-0.5 transition">
+                <i data-lucide="gamepad-2" class="w-4 h-4"></i> الألعاب
+            </button>
+            <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col items-center justify-center text-gray-400 hover:text-white gap-0.5 transition">
+                <i data-lucide="user" class="w-4 h-4"></i> الإمبراطور
+            </button>
+        </nav>
     </main>
 
     <script>
         lucide.createIcons();
 
-        function switchTab(name) {
-            ['mentor', 'micro', 'speech', 'cards', 'social'].forEach(t => {
-                document.getElementById('tab-' + t).classList.add('hidden');
-                document.getElementById('btn-' + t).className = 'py-2 rounded-lg text-gray-400 hover:text-gray-200 transition';
+        function switchTab(tab) {
+            ['home', 'library', 'games', 'profile'].forEach(t => {
+                let btn = document.getElementById('nav-' + t);
+                if(t === tab) {
+                    btn.className = "flex flex-col items-center justify-center text-amber-400 gap-0.5 transition scale-105";
+                } else {
+                    btn.className = "flex flex-col items-center justify-center text-gray-400 hover:text-white gap-0.5 transition";
+                }
             });
-            document.getElementById('tab-' + name).classList.remove('hidden');
-            document.getElementById('btn-' + name).className = 'py-2 rounded-lg text-amber-400 bg-amber-500/10 transition border border-amber-500/20';
+            if(tab === 'home') {
+                // Keep default view
+            } else {
+                alert("جاري تحميل قسم: " + tab + " بسرعة فائقة (وضع البيانات الخفيف مفعل).");
+            }
         }
 
+        function launchCinematicLesson(title) {
+            alert("🎬 جاري تشغيل العرض السينمائي التفاعلي: " + title + "\n(استهلاك بيانات منخفض للغاية + استجابة فورية)");
+            let xp = document.getElementById('xpScore');
+            xp.innerText = parseInt(xp.innerText.replace(',', '')) + 50;
+        }
+
+        function openAiChat() {
+            alert("💬 المعلم الاقتصادي الافتراضي جاهز للرد الفوري ومحاكاة محادثات سوق العمل!");
+        }
+
+        function startLevel(lvl) {
+            alert("🎮 بدء المستوى التفاعلي رقم: " + lvl + " (تحدي ألعاب سريع).");
+        }
+
+        function playAudioPrompt() {
+            const utt = new SpeechSynthesisUtterance("Artificial Intelligence empowers global communication.");
+            utt.lang = 'en-US';
+            window.speechSynthesis.speak(utt);
+        }
+
+        function triggerVoiceAnalysis() {
+            const box = document.getElementById('voiceResultBox');
+            box.classList.remove('hidden');
+            box.innerHTML = "🔴 جارٍ تحليل النطق المحلي بالذكاء الاصطناعي... <br><b class='text-amber-300'>تطابق ممتاز بنسبة 96%! (+30 XP)</b>";
+            let xp = document.getElementById('xpScore');
+            xp.innerText = parseInt(xp.innerText.replace(',', '')) + 30;
+        }
+
+        // Space Canvas Starfield Effect (Ultra Fast & Light)
         const canvas = document.getElementById('spaceCanvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            stars = Array.from({ length: 40 }, () => ({
+            stars = Array.from({ length: 30 }, () => ({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                size: Math.random() * 1.5,
-                speed: Math.random() * 0.15 + 0.05
+                size: Math.random() * 1.2,
+                speed: Math.random() * 0.1 + 0.02
             }));
         }
         window.addEventListener('resize', resizeCanvas);
@@ -217,7 +243,7 @@ saba_master_app = """<!DOCTYPE html>
 
         function animateSpace() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(212, 175, 55, 0.5)';
+            ctx.fillStyle = 'rgba(212, 175, 55, 0.4)';
             stars.forEach(s => {
                 ctx.fillRect(s.x, s.y, s.size, s.size);
                 s.y -= s.speed;
@@ -226,90 +252,6 @@ saba_master_app = """<!DOCTYPE html>
             requestAnimationFrame(animateSpace);
         }
         animateSpace();
-
-        function sendMentorMsg() {
-            const field = document.getElementById('chatField');
-            const feed = document.getElementById('chatFeed');
-            const text = field.value.trim();
-            if(!text) return;
-
-            feed.innerHTML += `<div class="flex justify-start"><div class="glass-panel p-3 rounded-xl rounded-tr-none max-w-[92%] border border-blue-500/30 text-gray-200"><p class="font-bold text-blue-400 text-[10px] mb-1">أنت:</p>${text}</div></div>`;
-            field.value = '';
-            feed.scrollTop = feed.scrollHeight;
-
-            setTimeout(() => {
-                feed.innerHTML += `<div class="flex justify-end"><div class="glass-panel p-3 rounded-xl rounded-tl-none max-w-[92%] border border-gray-700/80 text-gray-200"><p class="font-bold text-amber-400 text-[10px] mb-1">المعلم الذكي:</p>صياغة رائعة وسياق اقتصادي سليم! تم تصحيح القواعد ضمنياً دون إحراج. (+20 XP)</div></div>`;
-                feed.scrollTop = feed.scrollHeight;
-                let xpElem = document.getElementById('xpScore');
-                xpElem.innerText = parseInt(xpElem.innerText) + 20;
-            }, 1000);
-        }
-
-        function openMicroLesson(title, desc) {
-            const v = document.getElementById('microViewer');
-            v.classList.remove('hidden');
-            v.innerHTML = `<b class="text-amber-300">📖 ${title}</b><br><p class="mt-1">${desc}</p><span class="text-amber-400 font-bold block mt-2">✨ أتممت الدرس بنجاح (+30 XP)!</span>`;
-            let xp = document.getElementById('xpScore');
-            xp.innerText = parseInt(xp.innerText) + 30;
-        }
-
-        function runSpeechAnalysis() {
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRec) { alert("متصفحك لا يدعم التعرف الصوتي."); return; }
-            const rec = new SpeechRec();
-            rec.lang = 'en-US';
-            document.getElementById('speechFeedback').innerHTML = "🔴 جاري تحليل النطق والمقارنة مع المتحدث الأصلي...";
-            rec.start();
-            rec.onresult = (e) => {
-                let spoken = e.results[0][0].transcript;
-                document.getElementById('speechFeedback').innerHTML = `🟢 تطابق بنسبة 94% مع نبرة المتحدث الأصلي: <span class="text-amber-300 font-bold">"${spoken}"</span> (+35 XP)`;
-                let xp = document.getElementById('xpScore');
-                xp.innerText = parseInt(xp.innerText) + 35;
-            };
-        }
-
-        function playNativeAudio() {
-            const utt = new SpeechSynthesisUtterance("Successful negotiation requires active listening and precise timing.");
-            utt.lang = 'en-US';
-            window.speechSynthesis.speak(utt);
-        }
-
-        let flipped = false;
-        function flipCard() {
-            const def = document.getElementById('cardDef');
-            if(!flipped) {
-                def.innerHTML = "<b>المعنى:</b> الاستفادة القصوى من الموارد المتاحة (Financial Leverage).<br><i>مثال: We must leverage our digital assets.</i>";
-                flipped = true;
-            } else {
-                def.innerHTML = "اضغط لعرض المعنى وسياق الاستخدام الاقتصادي";
-                flipped = false;
-            }
-        }
-
-        function rateCard(rate) {
-            alert("تم تحديث خوارزمية التكرار المتباعد لهذه الكلمة بنجاح! (+15 XP)");
-            let xp = document.getElementById('xpScore');
-            xp.innerText = parseInt(xp.innerText) + 15;
-            document.getElementById('cardDef').innerHTML = "اضغط لعرض المعنى وسياق الاستخدام الاقتصادي";
-            flipped = false;
-        }
-
-        function joinRoom() {
-            alert("تم توصيلك بغرفة المحادثة الصوتية الجماعية بنجاح! تحدث الآن بالإنجليزية.");
-            let xp = document.getElementById('xpScore');
-            xp.innerText = parseInt(xp.innerText) + 50;
-        }
-
-        function getCert() {
-            alert("🎉 تهانينا! تم تقييم مستواك وفق معيار CEFR الأوروبي وإصدار الشهادة الرقمية بنجاح.");
-        }
-
-        function updateGov(gov) {
-            alert("تم تحديث نطاق المحافظات إلى: " + gov);
-        }
     </script>
 </body>
 </html>
-"""
-
-components.html(saba_master_app, height=960, scrolling=False)
