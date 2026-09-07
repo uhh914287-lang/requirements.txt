@@ -1,154 +1,295 @@
-import streamlit as st
-import google.generativeai as genai
-import random
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية السعيدة للإنجليزية الذكية</title>
+    <!-- Tailwind CSS & Lucide Icons via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        body { font-family: 'Tajawal', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-[#0b0f19] text-gray-100 min-h-screen flex flex-col items-center p-3 sm:p-5">
 
-# 1. Page Configuration (Netflix Dark Mode Baseline)
-st.set_page_config(page_title="أكاديمية السعيدة الذكية للغات", page_icon="🇾🇪", layout="wide")
+    <!-- الحاوية الرئيسية للهاتف -->
+    <div class="w-full max-w-md flex flex-col h-[92vh] bg-[#111827] rounded-3xl border border-gray-800 shadow-2xl overflow-hidden">
+        
+        <!-- الشريط العلوي: النقاط والمحافظة -->
+        <header class="bg-[#1f2937]/90 p-4 border-b border-gray-800 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1 bg-red-950/60 text-red-500 px-3 py-1 rounded-xl text-sm font-black border border-red-800/40">
+                    <i data-lucide="flame" class="w-4 h-4 animate-bounce"></i>
+                    <span id="xpDisplay">250 XP</span>
+                </div>
+                <div class="flex items-center gap-1 bg-amber-950/50 text-amber-400 px-2.5 py-1 rounded-xl text-xs font-bold border border-amber-800/30">
+                    <i data-lucide="trophy" class="w-3.5 h-3.5"></i>
+                    <span>دوري المحافظات</span>
+                </div>
+            </div>
 
-# 2. AI Key Configuration
-if "GENAI_KEY" in st.secrets:
-    API_KEY = st.secrets["GENAI_KEY"]
-else:
-    API_KEY = "AQ.Ab8RN6ITkIbjgXlrf_18zQIJEeDNBtE9M53aNTiDba2MtqbsLg"
+            <div class="flex items-center gap-2">
+                <select id="govSelect" class="bg-gray-900 text-xs text-gray-300 rounded-xl px-2 py-1.5 border border-gray-700 outline-none">
+                    <option value="الحديدة">الحديدة ⚓</option>
+                    <option value="صنعاء">صنعاء 🏛️</option>
+                    <option value="عدن">عدن 🌊</option>
+                    <option value="تعز">تعز 🏰</option>
+                    <option value="حضرموت">حضرموت 🌴</option>
+                </select>
+                <button onclick="toggleKeyModal()" class="p-1.5 bg-gray-800 hover:bg-gray-700 rounded-xl text-gray-400 hover:text-white" title="إعدادات الـ API">
+                    <i data-lucide="key" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </header>
 
-if API_KEY and API_KEY != "ضع_مفتاح_جوجل_الخاص_بك_هنا":
-    genai.configure(api_key=API_KEY)
-
-# 🎨 Native Luxury Styling (حماية كاملة ضد الترجمة)
-st.markdown("<h1 style='text-align:center; color:#ff0914; font-size:3rem; margin-bottom:0;'>🇾🇪 ACADEMY X</h1>", unsafe_allowed_html=True)
-st.markdown("<p style='text-align:center; color:#a0aec0; font-size:1.2rem;'>أول منصة سينمائية تفاعلية بذكاء اصطناعي فوري في الشرق الأوسط</p>", unsafe_allowed_html=True)
-st.markdown("---")
-
-# 3. Duolingo Gamification Engine (نظام النقاط والمتصدرين)
-if "xp" not in st.session_state:
-    st.session_state.xp = random.randint(150, 300)
-
-# القائمة الجانبية الفاخرة
-st.sidebar.markdown(f"## ⚡ مستوى الطالب الحركي\n# 🔥 {st.session_state.xp} XP")
-st.sidebar.markdown("🏆 **قائمة المتصدرين في اليمن لهذا الأسبوع:**\n1. أحمد م. (صنعاء) - 950 XP\n2. سارة ع. (عدن) - 880 XP\n3. **أنت حالياً** - {st.session_state.xp} XP")
-st.sidebar.markdown("---")
-
-user_profile = st.sidebar.selectbox("🎯 الفئة العمرية المستهدفة:", ["🧸 قسم الأطفال والناشئين", "💼 قسم الكبار والمحترفين"])
-menu_hub = st.sidebar.radio("📂 استوديو الأدوات اللغوية الـ 5 المبتكرة:", [
-    "🎬 شات المعلم السينمائي (مزدوج)", 
-    "🎙️ مختبر تصحيح النطق بالمايك", 
-    "⚡ مصحح القواعد الفوري وإعادة الصياغة",
-    "💼 محاكي مقابلات العمل وإيميلات البزنس",
-    "🚀 المناهج العالمية المعتمدة مجاناً"
-])
-
-sys_instruction = "You are an elite bilingual English professor. Explain concepts smoothly using an elite mix of simple Arabic and expert English."
-
-# --- تشغيل الأدوات الـ 5 الكبرى باحترافية ---
-
-if menu_hub == "🎬 شات المعلم السينمائي (مزدوج)":
-    st.markdown("### 🤖 السينما الافتراضية والشارح الذكي")
-    st.caption("اكتب أي قاعدة أو كلمة؛ سيقوم البوت بصياغة شرح سينمائي مبسط باللغتين ونطق ردوده أوتوماتيكياً!")
-    
-    user_input = st.text_input("اسأل المحاور الافتراضي هنا:")
-    if user_input and API_KEY:
-        with st.spinner("جاري التوليد اللغوي والصوتي..."):
-            try:
-                model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=sys_instruction)
-                response = model.generate_content(user_input)
-                st.info(response.text)
-                st.session_state.xp += 15
-                
-                clean_text = response.text.replace('\n', ' ').replace('"', '\\"').replace("'", "\\'")
-                st.components.v1.html(f"""
-                    <script>
-                    var speech = new SpeechSynthesisUtterance("{clean_text}");
-                    speech.lang = 'en-US';
-                    speech.rate = 0.92;
-                    window.speechSynthesis.speak(speech);
-                    </script>
-                """, height=0)
-            except Exception as e:
-                st.error(f"Error: {e}")
-
-elif menu_hub == "🎙️ مختبر تصحيح النطق بالمايك":
-    test_phrase = "Learning English with games is very fun" if "الأطفال" in user_profile else "Global communication shapes the future of technology"
-    st.markdown("### 🎙️ تحدي النطق الصوتي الفوري (مواكبة للجيل الحالي)")
-    st.write("اضغط على زر المايك بالأسفل واقرأ هذه الجملة بدقة وبصوتك لتقييم مخارج حروفك:")
-    st.error(f"الجملة المطلوبة: {test_phrase}")
-    
-    mic_js_code = f"""
-    <div style="text-align: center; margin-top: 15px;">
-        <button id="mButton" style="background-color: #58cc02; color: white; border: none; padding: 16px 36px; font-size: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #46a302;">
-            🎤 اضغط الآن وتحدث بالجملة بوضوح
-        </button>
-        <div id="resultBox" style="margin-top: 15px; padding: 15px; border-radius: 12px; display: none; background-color: #f8f9fa; direction: ltr; text-align: left; color: black;">
-            <p><b>Your Input:</b> <span id="userText" style="color: #58cc02; font-weight:bold;"></span></p>
-            <p><b>AI Feedback:</b> <span id="score" style="font-weight: bold;"></span></p>
+        <!-- نافذة منبثقة لضبط مفتاح Gemini -->
+        <div id="keyModal" class="hidden p-3 bg-amber-950/90 border-b border-amber-700 text-xs text-amber-200 flex flex-col gap-2">
+            <span>أدخل مفتاح Google Gemini الخاص بك (يُحفظ بأمان في متصفحك):</span>
+            <div class="flex gap-2">
+                <input id="apiKeyInput" type="password" placeholder="AIzaSy..." class="flex-1 bg-black/50 px-2 py-1 rounded border border-amber-700 text-white outline-none">
+                <button onclick="saveApiKey()" class="bg-amber-600 hover:bg-amber-700 text-black font-bold px-3 py-1 rounded">حفظ</button>
+            </div>
         </div>
+
+        <!-- تبويبات الأنشطة السريعة -->
+        <nav class="flex border-b border-gray-800 bg-[#161f30] text-xs font-bold text-gray-400">
+            <button onclick="switchTab('chat')" id="tab-chat" class="flex-1 py-3 text-center text-red-500 border-b-2 border-red-500">
+                💬 المحاور الذكي
+            </button>
+            <button onclick="switchTab('voice')" id="tab-voice" class="flex-1 py-3 text-center hover:text-gray-200">
+                🎙️ تصحيح النطق
+            </button>
+            <button onclick="switchTab('blitz')" id="tab-blitz" class="flex-1 py-3 text-center hover:text-gray-200">
+                ⚡ تحدي الـ 60 ثانية
+            </button>
+        </nav>
+
+        <!-- 1. قسم المحاور الذكي -->
+        <div id="view-chat" class="flex-1 flex flex-col justify-between overflow-hidden">
+            <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 hide-scrollbar text-sm">
+                <div class="flex justify-end">
+                    <div class="bg-[#1e293b] p-3 rounded-2xl rounded-tl-none border border-gray-800 max-w-[85%] leading-relaxed">
+                        أهلاً بك يا بطل! أنا مدربك التفاعلي لكسر حاجز الخوف من الإنجليزية. اكتب أي جملة أو اسألني وسأساعدك فوراً 🚀
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-3 bg-[#161f30] border-t border-gray-800 flex items-center gap-2">
+                <input id="chatInput" type="text" placeholder="اكتب بالإنجليزية أو اسأل بالعربي..." class="flex-1 bg-gray-900 text-white px-3.5 py-2.5 rounded-xl border border-gray-700 text-sm outline-none focus:border-red-500">
+                <button onclick="sendChatMessage()" class="bg-red-600 hover:bg-red-700 text-white p-2.5 rounded-xl">
+                    <i data-lucide="send" class="w-5 h-5 transform -rotate-90"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. قسم تصحيح النطق الصوتي -->
+        <div id="view-voice" class="hidden flex-1 p-5 flex-col items-center justify-between text-center">
+            <div class="space-y-4 w-full mt-4">
+                <span class="text-xs text-gray-400 font-bold tracking-wider">اقرأ الجملة التالية بصوتك:</span>
+                <div class="p-4 bg-gray-900 rounded-2xl border border-gray-800 text-lg font-bold text-red-400 tracking-wide dir-ltr" id="targetSentence">
+                    "Practice makes progress, not perfection."
+                </div>
+                <div class="flex justify-center gap-3">
+                    <button onclick="speakText(document.getElementById('targetSentence').innerText)" class="text-xs flex items-center gap-1 text-amber-400 bg-amber-950/40 px-3 py-1.5 rounded-xl border border-amber-800/40">
+                        <i data-lucide="volume-2" class="w-4 h-4"></i> استمع للنطق الأصلي
+                    </button>
+                </div>
+            </div>
+
+            <!-- زر التسجيل -->
+            <div class="my-auto flex flex-col items-center gap-3">
+                <button id="micBtn" onclick="startMicRecognition()" class="w-24 h-24 bg-red-600 hover:bg-red-700 active:scale-95 rounded-full flex items-center justify-center text-white shadow-lg shadow-red-900/40 transition-all">
+                    <i data-lucide="mic" class="w-10 h-10"></i>
+                </button>
+                <span id="micStatus" class="text-xs text-gray-400">اضغط المايك وتحدث بوضوح</span>
+            </div>
+
+            <div id="voiceFeedback" class="w-full min-h-[70px] p-3 rounded-2xl bg-gray-900/90 border border-gray-800 text-xs text-gray-300">
+                النتيجة وملاحظات اللفظ ستظهر هنا...
+            </div>
+        </div>
+
+        <!-- 3. قسم تحدي الـ 60 ثانية -->
+        <div id="view-blitz" class="hidden flex-1 p-5 flex flex-col justify-between">
+            <div class="flex justify-between items-center bg-gray-900 p-3 rounded-2xl border border-gray-800">
+                <span class="text-xs text-gray-400 font-bold">سؤال من سوق العمل والـ Freelancing:</span>
+                <span class="text-xs bg-red-950 text-red-400 font-bold px-2.5 py-1 rounded-lg">المستوى 1</span>
+            </div>
+
+            <div class="my-auto space-y-4">
+                <h3 class="text-base font-bold text-center leading-relaxed text-gray-200">
+                    كيف تقول لعميل أجنبي باحتراف: <br>
+                    <span class="text-amber-400">"سأقوم بتسليم المشروع في الموعد المحدد"</span>؟
+                </h3>
+
+                <div class="space-y-2.5 pt-2">
+                    <button onclick="checkAnswer(this, true)" class="w-full p-3 text-sm bg-gray-900 hover:bg-gray-800 border border-gray-800 rounded-xl text-right font-medium transition-all">
+                        A) I will deliver the project on schedule.
+                    </button>
+                    <button onclick="checkAnswer(this, false)" class="w-full p-3 text-sm bg-gray-900 hover:bg-gray-800 border border-gray-800 rounded-xl text-right font-medium transition-all">
+                        B) I give you the work in the time.
+                    </button>
+                    <button onclick="checkAnswer(this, false)" class="w-full p-3 text-sm bg-gray-900 hover:bg-gray-800 border border-gray-800 rounded-xl text-right font-medium transition-all">
+                        C) Project finish tomorrow sure.
+                    </button>
+                </div>
+            </div>
+
+            <div id="blitzResult" class="text-center text-xs text-gray-400">
+                اختر الإجابة الأدق والأكثر احترافية
+            </div>
+        </div>
+
     </div>
+
+    <!-- المنطق البرمجي المكتمل -->
     <script>
-    const btn = document.getElementById('mButton');
-    const box = document.getElementById('resultBox');
-    const uText = document.getElementById('userText');
-    const score = document.getElementById('score');
-    const target = "{test_phrase}".toLowerCase().trim();
+        lucide.createIcons();
 
-    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!Recognition) {{
-        alert("المتصفح لا يدعم المايك، يرجى الفتح عبر Google Chrome.");
-    }} else {{
-        const r = new Recognition(); r.lang = 'en-US';
-        btn.addEventListener('click', () => {{ r.start(); btn.innerText = "🎙️ جاري الاستماع الحقيقي..."; }});
-        r.addEventListener('result', (e) => {{
-            const res = e.results.transcript;
-            uText.innerText = res;
-            if (res.toLowerCase().trim() === target) {{
-                score.innerText = "🟢 Perfect Pronunciation (100%)! Excellent.";
-            }} else {{
-                score.innerText = "🟡 Good Attempt! Try again focusing on clarity.";
-            }}
-            box.style.display = "block"; btn.innerText = "🎤 اضغط هنا وتحدث مجدداً";
-        }});
-    }}
+        // استرجاع النقاط والمفتاح
+        let currentXP = parseInt(localStorage.getItem('user_xp') || '250');
+        let geminiKey = localStorage.getItem('gemini_api_key') || '';
+        document.getElementById('xpDisplay').innerText = `${currentXP} XP`;
+        if (geminiKey) document.getElementById('apiKeyInput').value = geminiKey;
+
+        function addXP(points) {
+            currentXP += points;
+            localStorage.setItem('user_xp', currentXP);
+            document.getElementById('xpDisplay').innerText = `${currentXP} XP`;
+        }
+
+        function toggleKeyModal() {
+            document.getElementById('keyModal').classList.toggle('hidden');
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if (key) {
+                localStorage.setItem('gemini_api_key', key);
+                geminiKey = key;
+                alert('تم حفظ المفتاح بنجاح!');
+                toggleKeyModal();
+            }
+        }
+
+        function switchTab(tab) {
+            ['chat', 'voice', 'blitz'].forEach(t => {
+                document.getElementById(`view-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = 'flex-1 py-3 text-center text-gray-400 hover:text-gray-200';
+            });
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).className = 'flex-1 py-3 text-center text-red-500 border-b-2 border-red-500';
+        }
+
+        // 1. المحاور الذكي عبر Gemini API المباشر
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            if (!geminiKey) {
+                alert('يرجى النقر على أيقونة المفتاح بالأعلى وإدخال مفتاح Gemini الخاص بك للبدء.');
+                toggleKeyModal();
+                return;
+            }
+
+            const chatBox = document.getElementById('chatMessages');
+            chatBox.innerHTML += `
+                <div class="flex justify-start">
+                    <div class="bg-red-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[85%]">${text}</div>
+                </div>`;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `You are an encouraging English coach for Yemeni learners. Reply briefly (under 3 sentences). Correct any grammar gently at the end with a tip. User said: ${text}`
+                            }]
+                        }]
+                    })
+                });
+                const data = await response.json();
+                const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'تعذر جلب الرد، تحقق من صحة المفتاح.';
+
+                chatBox.innerHTML += `
+                    <div class="flex justify-end">
+                        <div class="bg-[#1e293b] p-3 rounded-2xl rounded-tl-none border border-gray-800 max-w-[85%] leading-relaxed">
+                            ${reply}
+                            <button onclick="speakText(this.parentElement.innerText)" class="mt-2 text-xs flex items-center gap-1 text-amber-400">
+                                🔊 استمع للنطق
+                            </button>
+                        </div>
+                    </div>`;
+                addXP(15);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (err) {
+                chatBox.innerHTML += `<div class="text-xs text-red-400 text-center">خطأ بالاتصال، تأكد من مفتاح الـ API.</div>`;
+            }
+        }
+
+        // النطق الآلي
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text.replace('🔊 استمع للنطق', ''));
+                utter.lang = 'en-US';
+                utter.rate = 0.92;
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        // 2. فحص النطق بالمايك
+        function startMicRecognition() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) {
+                alert("متصفحك لا يدعم التعرف الصوتي المباشر، يرجى الفتح عبر Chrome.");
+                return;
+            }
+            const rec = new SpeechRec();
+            rec.lang = 'en-US';
+            const status = document.getElementById('micStatus');
+            const feedback = document.getElementById('voiceFeedback');
+
+            status.innerText = '🎙️ جاري الاستماع... اقرأ الآن!';
+            rec.start();
+
+            rec.onresult = (e) => {
+                const spoken = e.results[0][0].transcript;
+                status.innerText = 'اضغط المايك وتحدث بوضوح';
+                if (spoken.toLowerCase().includes("practice makes progress")) {
+                    feedback.innerHTML = `<span class="text-green-400 font-bold text-sm">🟢 لفظ ممتاز ومتقن! (100%)</span><br>سمعنا: "${spoken}"`;
+                    addXP(25);
+                } else {
+                    feedback.innerHTML = `<span class="text-amber-400 font-bold text-sm">🟡 محاولة جيدة! ركز على نطق مخارج الكلمات بدقة.</span><br>سمعنا: "${spoken}"`;
+                }
+            };
+            rec.onerror = () => { status.innerText = 'تعذر التقاط الصوت، أعد المحاولة'; };
+        }
+
+        // 3. التحقق من إجابة التحدي
+        function checkAnswer(btn, isCorrect) {
+            const res = document.getElementById('blitzResult');
+            if (isCorrect) {
+                btn.className = 'w-full p-3 text-sm bg-green-950/80 border border-green-600 rounded-xl text-right font-bold text-green-300';
+                res.innerHTML = '🎉 إجابة احترافية ممتازة! ربحت +20 XP';
+                addXP(20);
+            } else {
+                btn.className = 'w-full p-3 text-sm bg-red-950/80 border border-red-600 rounded-xl text-right font-bold text-red-300';
+                res.innerHTML = '❌ غير دقيقة للتعامل المهني الرسمي، حاول مجدداً.';
+            }
+        }
+
+        document.getElementById('chatInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
     </script>
-    """
-    st.components.v1.html(mic_js_code, height=230)
-
-elif menu_hub == "⚡ مصحح القواعد الفوري وإعادة الصياغة":
-    st.markdown("### 📝 مصحح القواعد وإعادة الصياغة الذكية لجيل الـ Gen-Z")
-    st.caption("ضع أي نص إنجليزي ركيك أو به أخطاء، وسيقوم البوت بإعادة كتابته بشكل احترافي مع تلوين وتوضيح الأخطاء الإملائية والنعوت.")
-    
-    text_to_fix = st.text_area("أدخل النص هنا:")
-    if text_to_fix and API_KEY:
-        with st.spinner("جاري الهندسة اللغوية الفورية..."):
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            res = model.generate_content(f"Fix all grammar and spelling errors in this text, format it beautifully, and explain why the change happened in simple Arabic: {text_to_fix}")
-            st.success(res.text)
-            st.session_state.xp += 10
-
-elif menu_hub == "💼 محاكي مقابلات العمل وإيميلات البزنس":
-    st.markdown("### 💼 المطور الاحترافي والتوظيف الرقمي")
-    st.caption("أداة مخصصة لخريجي الجامعات والشباب اليمني لكتابة إيميلات رسمية للشركات الدولية، أو محاكاة مقابلة عمل حقيقية.")
-    
-    biz_mode = st.selectbox("اختر نمط الأداة:", ["💼 محاكي مقابلة العمل الشخصية عبر AI", "✉️ منشئ ومطور إيميلات البزنس الفاخرة"])
-    
-    user_biz_input = st.text_area("اكتب مسودتك أو إجابتك هنا:")
-    if user_biz_input and API_KEY:
-        with st.spinner("جاري صياغة النص بطابع مؤسسي فاخر..."):
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            if "مقابلة" in biz_mode:
-                prompt = f"Act as an HR Manager. Evaluate this candidate response, give constructive feedback, and rewrite it in an elite professional way: {user_biz_input}"
-            else:
-                prompt = f"Convert this text into a high-end corporate business email or an outstanding LinkedIn resume bio: {user_biz_input}"
-            res = model.generate_content(prompt)
-            st.success(res.text)
-            st.session_state.xp += 10
-
-elif menu_hub == "🚀 المناهج العالمية المعتمدة مجاناً":
-    st.markdown("### 🚀 المكتبة الذهبية للحقائب المعتمدة عالمياً")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.info("🇺🇸 **مسار إنجليزية الأعمال والتوظيف - جامعة بنسلفانيا**")
-        st.write("منهج تفاعلي متكامل يعلم مهارات الإدارة والخطابة، متاح للدراسة والاستفادة مجاناً.")
-        st.markdown("[🔗 ابدأ التسجيل المجاني فورا عبر Coursera](https://coursera.org)")
-    with col2:
-        st.info("🇬🇧 **أكاديمية المجلس الثقافي البريطاني - British Council**")
-        st.write("مناهج تبدأ من الصفر (A1) وتتدرج للطلاقة الكاملة، مدعوماً ببنك أنشطة يعمل بأقل استهلاك للإنترنت.")
-        st.markdown("[🔗 اضغط هنا لإجراء اختبار المستوى والتعلم](https://britishcouncil.org)")
+</body>
+</html>
