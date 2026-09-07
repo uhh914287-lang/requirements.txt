@@ -1,14 +1,35 @@
-<!DOCTYPE html>
+import streamlit as st
+import streamlit.components.v1 as components
+
+# إعداد الصفحة لتظهر بحجم الهاتف بالكامل
+st.set_page_config(
+    page_title="أكاديمية السعيدة للإنجليزية الذكية",
+    page_icon="🇾🇪",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
+
+# إخفاء قوائم Streamlit الافتراضية لمنح المستخدم تجربة تطبيق هاتف كامل
+st.markdown("""
+    <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        .block-container {padding: 0 !important; max-width: 480px !important; margin: auto;}
+    </style>
+""", unsafe_allowed_html=True)
+
+html_code = """<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أكاديمية السعيدة للإنجليزية الذكية</title>
     <!-- Tailwind CSS & Lucide Icons via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://tailwindcss.com"></script>
+    <script src="https://unpkg.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        @import url('https://googleapis.com');
         body { font-family: 'Tajawal', sans-serif; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
     </style>
@@ -160,136 +181,3 @@
             localStorage.setItem('user_xp', currentXP);
             document.getElementById('xpDisplay').innerText = `${currentXP} XP`;
         }
-
-        function toggleKeyModal() {
-            document.getElementById('keyModal').classList.toggle('hidden');
-        }
-
-        function saveApiKey() {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            if (key) {
-                localStorage.setItem('gemini_api_key', key);
-                geminiKey = key;
-                alert('تم حفظ المفتاح بنجاح!');
-                toggleKeyModal();
-            }
-        }
-
-        function switchTab(tab) {
-            ['chat', 'voice', 'blitz'].forEach(t => {
-                document.getElementById(`view-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).className = 'flex-1 py-3 text-center text-gray-400 hover:text-gray-200';
-            });
-            document.getElementById(`view-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-${tab}`).className = 'flex-1 py-3 text-center text-red-500 border-b-2 border-red-500';
-        }
-
-        // 1. المحاور الذكي عبر Gemini API المباشر
-        async function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if (!text) return;
-
-            if (!geminiKey) {
-                alert('يرجى النقر على أيقونة المفتاح بالأعلى وإدخال مفتاح Gemini الخاص بك للبدء.');
-                toggleKeyModal();
-                return;
-            }
-
-            const chatBox = document.getElementById('chatMessages');
-            chatBox.innerHTML += `
-                <div class="flex justify-start">
-                    <div class="bg-red-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[85%]">${text}</div>
-                </div>`;
-            input.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `You are an encouraging English coach for Yemeni learners. Reply briefly (under 3 sentences). Correct any grammar gently at the end with a tip. User said: ${text}`
-                            }]
-                        }]
-                    })
-                });
-                const data = await response.json();
-                const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'تعذر جلب الرد، تحقق من صحة المفتاح.';
-
-                chatBox.innerHTML += `
-                    <div class="flex justify-end">
-                        <div class="bg-[#1e293b] p-3 rounded-2xl rounded-tl-none border border-gray-800 max-w-[85%] leading-relaxed">
-                            ${reply}
-                            <button onclick="speakText(this.parentElement.innerText)" class="mt-2 text-xs flex items-center gap-1 text-amber-400">
-                                🔊 استمع للنطق
-                            </button>
-                        </div>
-                    </div>`;
-                addXP(15);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            } catch (err) {
-                chatBox.innerHTML += `<div class="text-xs text-red-400 text-center">خطأ بالاتصال، تأكد من مفتاح الـ API.</div>`;
-            }
-        }
-
-        // النطق الآلي
-        function speakText(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utter = new SpeechSynthesisUtterance(text.replace('🔊 استمع للنطق', ''));
-                utter.lang = 'en-US';
-                utter.rate = 0.92;
-                window.speechSynthesis.speak(utter);
-            }
-        }
-
-        // 2. فحص النطق بالمايك
-        function startMicRecognition() {
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRec) {
-                alert("متصفحك لا يدعم التعرف الصوتي المباشر، يرجى الفتح عبر Chrome.");
-                return;
-            }
-            const rec = new SpeechRec();
-            rec.lang = 'en-US';
-            const status = document.getElementById('micStatus');
-            const feedback = document.getElementById('voiceFeedback');
-
-            status.innerText = '🎙️ جاري الاستماع... اقرأ الآن!';
-            rec.start();
-
-            rec.onresult = (e) => {
-                const spoken = e.results[0][0].transcript;
-                status.innerText = 'اضغط المايك وتحدث بوضوح';
-                if (spoken.toLowerCase().includes("practice makes progress")) {
-                    feedback.innerHTML = `<span class="text-green-400 font-bold text-sm">🟢 لفظ ممتاز ومتقن! (100%)</span><br>سمعنا: "${spoken}"`;
-                    addXP(25);
-                } else {
-                    feedback.innerHTML = `<span class="text-amber-400 font-bold text-sm">🟡 محاولة جيدة! ركز على نطق مخارج الكلمات بدقة.</span><br>سمعنا: "${spoken}"`;
-                }
-            };
-            rec.onerror = () => { status.innerText = 'تعذر التقاط الصوت، أعد المحاولة'; };
-        }
-
-        // 3. التحقق من إجابة التحدي
-        function checkAnswer(btn, isCorrect) {
-            const res = document.getElementById('blitzResult');
-            if (isCorrect) {
-                btn.className = 'w-full p-3 text-sm bg-green-950/80 border border-green-600 rounded-xl text-right font-bold text-green-300';
-                res.innerHTML = '🎉 إجابة احترافية ممتازة! ربحت +20 XP';
-                addXP(20);
-            } else {
-                btn.className = 'w-full p-3 text-sm bg-red-950/80 border border-red-600 rounded-xl text-right font-bold text-red-300';
-                res.innerHTML = '❌ غير دقيقة للتعامل المهني الرسمي، حاول مجدداً.';
-            }
-        }
-
-        document.getElementById('chatInput').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') sendChatMessage();
-        });
-    </script>
-</body>
-</html>
