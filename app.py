@@ -21,7 +21,7 @@ saba_academy_full_app = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SABA ACADEMY X - Oxford Edition</title>
+    <title>SABA ACADEMY X - Full Curriculum</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -54,10 +54,10 @@ saba_academy_full_app = """<!DOCTYPE html>
                     </div>
                 </div>
                 <div>
-                    <h1 class="text-[11px] font-black tracking-widest text-amber-400/90 uppercase cinzel">OXFORD SABA AI</h1>
+                    <h1 class="text-[11px] font-black tracking-widest text-amber-400/90 uppercase cinzel">SABA MASTER COURSES</h1>
                     <div class="flex items-center gap-1.5 mt-0.5">
                         <i data-lucide="flame" class="w-3.5 h-3.5 text-red-500 fill-red-500"></i>
-                        <span id="xpScore" class="text-sm font-black text-gray-100">450</span>
+                        <span id="xpScore" class="text-sm font-black text-gray-100">600</span>
                         <span class="text-[10px] text-amber-400/70 font-bold">XP</span>
                     </div>
                 </div>
@@ -74,70 +74,70 @@ saba_academy_full_app = """<!DOCTYPE html>
 
         <nav class="grid grid-cols-4 bg-[#090d16]/90 p-1.5 border-b border-gray-800/60 text-[11px] font-bold z-20">
             <button onclick="switchTab('arena')" id="btn-arena" class="py-2.5 rounded-xl text-amber-400 bg-amber-500/10 transition flex items-center justify-center gap-1 border border-amber-500/20">💬 المحاكي</button>
-            <button onclick="switchTab('oxford')" id="btn-oxford" class="py-2.5 rounded-xl text-gray-400 hover:text-gray-200 transition flex items-center justify-center gap-1">📚 أكسفورد</button>
+            <button onclick="switchTab('courses')" id="btn-courses" class="py-2.5 rounded-xl text-gray-400 hover:text-gray-200 transition flex items-center justify-center gap-1">📖 المناهج</button>
             <button onclick="switchTab('voice')" id="btn-voice" class="py-2.5 rounded-xl text-gray-400 hover:text-gray-200 transition flex items-center justify-center gap-1">🎙️ النطق</button>
             <button onclick="switchTab('quest')" id="btn-quest" class="py-2.5 rounded-xl text-gray-400 hover:text-gray-200 transition flex items-center justify-center gap-1">⚡ تحدي</button>
         </nav>
 
         <div class="flex-1 overflow-hidden relative z-10 flex flex-col">
             
-            <!-- المحاكي الذكي -->
+            <!-- المحاكي -->
             <section id="tab-arena" class="flex-1 flex flex-col justify-between overflow-hidden p-4">
                 <div id="chatFeed" class="flex-1 overflow-y-auto space-y-3.5 pr-1 text-sm">
                     <div class="flex justify-end">
                         <div class="glass-panel p-4 rounded-2xl rounded-tl-none max-w-[90%] border border-gray-700/80 leading-relaxed text-gray-200">
-                            <p class="font-bold text-amber-400 text-[11px] mb-1">Oxford AI Mentor:</p>
-                            Welcome! Ready to practice Oxford 3000 vocabulary and business dialogues?
+                            <p class="font-bold text-amber-400 text-[11px] mb-1">Saba Curriculum AI:</p>
+                            أهلاً بك! اختر المنهج الذي تفضله من تبويب "المناهج" أو اسألني هنا لأشرح لك أي قاعدة مجاناً.
                         </div>
                     </div>
                 </div>
                 <div class="mt-3 flex items-center gap-2 bg-[#0c1220]/90 p-1.5 rounded-2xl border border-gray-700/70">
-                    <input id="chatField" type="text" placeholder="اكتب ردك هنا..." class="flex-1 bg-transparent px-3 py-2 text-sm text-white outline-none" dir="auto">
+                    <input id="chatField" type="text" placeholder="اكتب سؤالك هنا..." class="flex-1 bg-transparent px-3 py-2 text-sm text-white outline-none" dir="auto">
                     <button onclick="sendChatMessage()" class="agate-button p-2.5 rounded-xl text-white transition hover:scale-105">
                         <i data-lucide="sparkles" class="w-4 h-4"></i>
                     </button>
                 </div>
             </section>
 
-            <!-- مكتبة كورسات أكسفورد المجانية -->
-            <section id="tab-oxford" class="hidden flex-1 flex flex-col p-4 overflow-y-auto space-y-3">
+            <!-- كورسات ومناهج اللغة الكاملة والمجانية -->
+            <section id="tab-courses" class="hidden flex-1 flex flex-col p-4 overflow-y-auto space-y-3">
                 <div class="glass-panel p-3.5 rounded-2xl border border-amber-500/30">
-                    <h2 class="text-xs font-black text-amber-300">مكتبة أكسفورد الشاملة (مجانية 100%)</h2>
-                    <p class="text-[11px] text-gray-400 mt-1">اختر المستوى أو القاعدة للبدء فوراً وتجميع نقاط الـ XP:</p>
+                    <h2 class="text-xs font-black text-amber-300">موسوعة كورسات أكسفورد والمنهج الشامل (100% مجاني)</h2>
+                    <p class="text-[11px] text-gray-400 mt-1">اضغط على أي مستوى لفتح الدروس والمفردات فورا:</p>
                 </div>
                 <div class="space-y-2.5">
-                    <div onclick="openOxfordModule('Oxford 3000 - Business Vocabulary')" class="glass-panel p-3.5 rounded-2xl cursor-pointer hover:border-amber-400 transition flex items-center justify-between">
+                    <div onclick="openCourse('A1', 'المستوى المبتدئ - الأساسيات ومقابلة العمل الأولى')" class="glass-panel p-3.5 rounded-2xl cursor-pointer hover:border-amber-400 transition flex items-center justify-between">
                         <div>
-                            <h3 class="text-xs font-bold text-amber-200">Oxford 3000™ - كلمات سوق العمل الحر</h3>
-                            <p class="text-[10px] text-gray-400 mt-0.5">أهم 3000 كلمة معتمدة للاحتراف المهني.</p>
+                            <h3 class="text-xs font-bold text-amber-200">المستوى (A1-A2): الأساسيات والمحادثة اليومية</h3>
+                            <p class="text-[10px] text-gray-400 mt-0.5">التعريف بالنفس، صياغة الجمل البسيطة، وأبسط القواعد.</p>
                         </div>
-                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg border border-amber-500/20">فتح</span>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg border border-amber-500/20">دخول</span>
                     </div>
-                    <div onclick="openOxfordModule('Oxford Grammar Practice - Intermediate')" class="glass-panel p-3.5 rounded-2xl cursor-pointer hover:border-amber-400 transition flex items-center justify-between">
+                    <div onclick="openCourse('B1', 'المستوى المتوسط - الإنجليزية للعمل الحر والمهارات المهنية')" class="glass-panel p-3.5 rounded-2xl cursor-pointer hover:border-amber-400 transition flex items-center justify-between">
                         <div>
-                            <h3 class="text-xs font-bold text-amber-200">Oxford Grammar - القواعد المتقدمة</h3>
-                            <p class="text-[10px] text-gray-400 mt-0.5">قواعد الأزمنة، الهياكل الشرطية وصياغة الإيميلات.</p>
+                            <h3 class="text-xs font-bold text-amber-200">المستوى (B1-B2): إنجليزية سوق العمل الحر (Freelancing)</h3>
+                            <p class="text-[10px] text-gray-400 mt-0.5">كتابة الإيميلات الرسمية، التفاوض، وإدارة المقابلات.</p>
                         </div>
-                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg border border-amber-500/20">فتح</span>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg border border-amber-500/20">دخول</span>
                     </div>
-                    <div onclick="openOxfordModule('Oxford Idioms & Phrasal Verbs')" class="glass-panel p-3.5 rounded-2xl cursor-pointer hover:border-amber-400 transition flex items-center justify-between">
+                    <div onclick="openCourse('C1', 'المستوى المتقدم - الطلاقة الكاملة والتعابير الاصطلاحية')" class="glass-panel p-3.5 rounded-2xl cursor-pointer hover:border-amber-400 transition flex items-center justify-between">
                         <div>
-                            <h3 class="text-xs font-bold text-amber-200">Phrasal Verbs & Idioms - المصطلحات اليومية</h3>
-                            <p class="text-[10px] text-gray-400 mt-0.5">تحدث بطلاقة مثل المتحدثين الأصليين.</p>
+                            <h3 class="text-xs font-bold text-amber-200">المستوى (C1): الاحتراف والطلاقة المطلقة (Oxford Pro)</h3>
+                            <p class="text-[10px] text-gray-400 mt-0.5">المصطلحات المتقدمة (Idioms) والخطابة المهنية.</p>
                         </div>
-                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg border border-amber-500/20">فتح</span>
+                        <span class="text-xs bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg border border-amber-500/20">دخول</span>
                     </div>
                 </div>
-                <div id="oxfordViewer" class="glass-panel p-4 rounded-2xl text-xs text-gray-300 mt-2 hidden border border-blue-500/30">
-                    <!-- محتوى المنهج المختار يظهر هنا -->
+                <div id="courseViewer" class="glass-panel p-4 rounded-2xl text-xs text-gray-300 mt-2 hidden border border-blue-500/30 space-y-2">
+                    <!-- محتوى الكورس الديناميكي -->
                 </div>
             </section>
 
             <!-- مختبر النطق -->
             <section id="tab-voice" class="hidden flex-1 flex flex-col justify-between items-center p-6 text-center overflow-y-auto">
                 <div class="glass-panel p-5 rounded-3xl w-full border border-amber-500/20">
-                    <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider">عبارة أكسفورد للاختبار</span>
-                    <h2 id="tgtPhrase" class="text-base font-black text-amber-200 mt-2">"Effective communication is 20% what you know and 80% how you feel about what you know."</h2>
+                    <span class="text-[11px] text-amber-400 font-bold uppercase tracking-wider">عبارة التدريب الصوتي</span>
+                    <h2 id="tgtPhrase" class="text-base font-black text-amber-200 mt-2">"Hard work beats talent when talent doesn't work hard."</h2>
                     <button onclick="playTargetAudio()" class="mt-3 text-xs bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-xl text-gray-300 transition border border-white/10">🔊 الاستماع للنموذج</button>
                 </div>
                 
@@ -156,15 +156,15 @@ saba_academy_full_app = """<!DOCTYPE html>
             <!-- التحدي السريع -->
             <section id="tab-quest" class="hidden flex-1 p-5 flex flex-col justify-center text-center space-y-4 overflow-y-auto">
                 <div class="space-y-2">
-                    <span class="text-xs text-amber-400 font-bold bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">تحدي أكسفورد اليومي</span>
-                    <h3 class="text-base font-black text-amber-100 leading-snug">اختر المعنى الصحيح للمصطلح المهني: "To touch base"</h3>
+                    <span class="text-xs text-amber-400 font-bold bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">تحدي قواعد أكسفورد</span>
+                    <h3 class="text-base font-black text-amber-100 leading-snug">اختر الجملة الصحيحة قواعدياً في الماضي البسيط:</h3>
                 </div>
                 <div class="space-y-2.5 w-full">
                     <button onclick="evalQuest(true)" class="w-full p-4 glass-panel rounded-2xl text-right text-xs sm:text-sm hover:border-amber-400/50 transition">
-                        <b>A)</b> التواصل المختصر لمتابعة العمل أو المشروع.
+                        <b>A)</b> I successfully completed the freelance project yesterday.
                     </button>
                     <button onclick="evalQuest(false)" class="w-full p-4 glass-panel rounded-2xl text-right text-xs sm:text-sm hover:border-red-500/50 transition">
-                        <b>B)</b> لمس الأرض باليد أثناء الرياضة.
+                        <b>B)</b> I is complete the project yesterday.
                     </button>
                 </div>
             </section>
@@ -176,7 +176,7 @@ saba_academy_full_app = """<!DOCTYPE html>
         lucide.createIcons();
 
         function switchTab(name) {
-            ['arena', 'oxford', 'voice', 'quest'].forEach(t => {
+            ['arena', 'courses', 'voice', 'quest'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
                 document.getElementById('btn-' + t).className = 'py-2.5 rounded-xl text-gray-400 hover:text-gray-200 transition flex items-center justify-center gap-1';
             });
@@ -212,20 +212,21 @@ saba_academy_full_app = """<!DOCTYPE html>
         }
         animateSpace();
 
-        function openOxfordModule(moduleName) {
-            const viewer = document.getElementById('oxfordViewer');
+        function openCourse(level, title) {
+            const viewer = document.getElementById('courseViewer');
             viewer.classList.remove('hidden');
-            let content = "";
-            if(moduleName.includes('Vocabulary')) {
-                content = `<b>📚 منهج ${moduleName}:</b><br>1. <i>Deadline</i> (موعد تسليم): The deadline for this freelance task is Friday.<br>2. <i>Proposal</i> (عرض مقترح): Send your project proposal now.<br>+25 XP تمت إضافة نقاط إنجاز القراءة!`;
-            } else if(moduleName.includes('Grammar')) {
-                content = `<b>📐 قاعدية أكسفورد:</b><br>استخدام المضارع التام (Present Perfect) في إثبات الخبرات المهنية السابقة: "I have managed 5 remote projects."`;
+            let content = `<b class="text-amber-300">📖 محتوى كورس ${level}: ${title}</b><br>`;
+            if(level === 'A1') {
+                content += `• الأبجدية، الأرقام، وتكوين الجمل البصرية.<br>• أهم 500 كلمة شائعة في الحياة اليومية.<br>• التمارين: تفاعل فوري ونطق سليم.`;
+            } else if(level === 'B1') {
+                content += `• إعداد سيرة ذاتية (CV) احترافية بالإنجليزية.<br>• صياغة إيميلات طلبات العمل الحر.<br>• قواعد الأزمنة المتقدمة (Present Perfect vs Past Simple).`;
             } else {
-                content = `<b>💡 مصطلحات شائعة (Idioms):</b><br>• <i>Ball is in your court</i>: القرار بيدكَ الآن في صفقة العمل.`;
+                content += `• لغة التفاوض التجاري المتقدم.<br>• التعابير الاصطلاحية الأكثر استخداماً في الشركات العالمية.<br>• اجتياز المقابلات التقنية الصعبة.`;
             }
+            content += `<br><span class="text-amber-400 font-bold mt-2 block">✨ تم تسجيل إتمام درس الكورس بنجاح (+40 XP)!</span>`;
             viewer.innerHTML = content;
             let xpElem = document.getElementById('xpScore');
-            xpElem.innerText = parseInt(xpElem.innerText) + 25;
+            xpElem.innerText = parseInt(xpElem.innerText) + 40;
         }
 
         function sendChatMessage() {
@@ -239,10 +240,10 @@ saba_academy_full_app = """<!DOCTYPE html>
             feed.scrollTop = feed.scrollHeight;
 
             setTimeout(() => {
-                feed.innerHTML += `<div class="flex justify-end"><div class="glass-panel p-3.5 rounded-2xl rounded-tl-none max-w-[90%] border border-gray-700/80 text-gray-200"><p class="font-bold text-amber-400 text-[11px] mb-1">Oxford AI:</p>إجابة رائعة وفق معايير أكسفورد المهنية! (+15 XP)</div></div>`;
+                feed.innerHTML += `<div class="flex justify-end"><div class="glass-panel p-3.5 rounded-2xl rounded-tl-none max-w-[90%] border border-gray-700/80 text-gray-200"><p class="font-bold text-amber-400 text-[11px] mb-1">Saba AI:</p>إجابة ممتازة! تم حفظ النقاط وتحديث منهج أكسفورد الخاص بك. (+20 XP)</div></div>`;
                 feed.scrollTop = feed.scrollHeight;
                 let xpElem = document.getElementById('xpScore');
-                xpElem.innerText = parseInt(xpElem.innerText) + 15;
+                xpElem.innerText = parseInt(xpElem.innerText) + 20;
             }, 1000);
         }
 
@@ -255,25 +256,25 @@ saba_academy_full_app = """<!DOCTYPE html>
             rec.start();
             rec.onresult = (e) => {
                 let spoken = e.results[0][0].transcript;
-                document.getElementById('voiceFeedback').innerHTML = `🟢 نطق ممتاز وفق معايير أكسفورد: <span class="text-amber-300 font-bold">"${spoken}"</span> (+30 XP)`;
+                document.getElementById('voiceFeedback').innerHTML = `🟢 نطق احترافي صحيح: <span class="text-amber-300 font-bold">"${spoken}"</span> (+30 XP)`;
                 let xpElem = document.getElementById('xpScore');
                 xpElem.innerText = parseInt(xpElem.innerText) + 30;
             };
         }
 
         function playTargetAudio() {
-            const utterance = new SpeechSynthesisUtterance("Effective communication is 20% what you know and 80% how you feel about what you know.");
+            const utterance = new SpeechSynthesisUtterance("Hard work beats talent when talent doesn't work hard.");
             utterance.lang = 'en-US';
             window.speechSynthesis.speak(utterance);
         }
 
         function evalQuest(isCorrect) {
             if(isCorrect) {
-                alert("✨ إجابة صحيحة تماماً! مصطلح أكسفورد معتمد (+35 XP).");
+                alert("✨ إجابة صحيحة تماماً! تم تعزيز نقاط محافظتك (+35 XP).");
                 let xpElem = document.getElementById('xpScore');
                 xpElem.innerText = parseInt(xpElem.innerText) + 35;
             } else {
-                alert("⚠️ خطأ، حاول مجدداً لاختيار المعنى المهني الصحيح.");
+                alert("⚠️ خطأ قواعدي، الخيار الصحيح هو A لأن الجملة في زمن الماضي البسيط.");
             }
         }
 
