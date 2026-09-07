@@ -51,7 +51,7 @@ sys_instruction = (
     "Analyze the user's input, provide instant guidance, and correct any structural flaws."
 )
 
-# --- تشغيل الأقسام بناءً على خطة الـ 60 دقيقة ---
+# --- تشغيل الأقسام بناءً على الاختيار ---
 
 if menu == "🗣️ بوت التحدث وتصحيح النطق":
     st.subheader("🤖 المحاور الذكي والمعلم الافتراضي:")
@@ -80,7 +80,6 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
     st.markdown("---")
     st.subheader("🎙️ مختبر النطق والتصحيح الصوتي التفاعلي:")
     
-    # قائمة جمل تحدي ذكية حسب الفئة
     if "الأطفال" in user_type:
         test_sentence = "Learning English with games is very fun and easy"
     else:
@@ -88,7 +87,6 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
         
     st.warning(f"🎙️ الجملة المطلوب قراءتها الآن بصوتك: **{test_sentence}**")
     
-    # واجهة المايك الاحترافية الحديثة داخل المتصفح
     st.components.v1.html(f"""
     <div style="text-align: center; font-family: 'Cairo', sans-serif; margin-top: 10px;">
         <button id="micBtn" style="background-color: #17b978; color: white; border: none; padding: 15px 35px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(23,185,120,0.3); transition: 0.3s;">
@@ -121,7 +119,7 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
             micBtn.style.backgroundColor = "#d32f2f";
         }});
         recognition.addEventListener('result', (e) => {{
-            const result = e.results[0][0].transcript;
+            const result = e.results.transcript;
             userTextSpan.innerText = result;
             if (result.toLowerCase().trim() === target) {{
                 scoreSpan.innerText = "🟢 Perfect Pronunciation (100%)! Excellent job.";
@@ -142,7 +140,6 @@ elif menu == "📚 المكتبة الذهبية العالمية":
     st.subheader("📚 المناهج الحصرية المعتمدة عالمياً ومجاناً 100%")
     st.write("تم دمج أقوى المقررات الدولية الصادرة من كبرى المؤسسات الأكاديمية العالمية لتوفير محتوى تعليمي لا ينافس:")
     
-    # كورس وزارة الخارجية الأمريكية
     st.markdown("""
     <div class="course-card">
         <div class="course-title">🇺🇸 كورس اللغة الإنجليزية المهنية المعتمد - جامعة بنسلفانيا والخارجية الأمريكية</div>
@@ -151,7 +148,6 @@ elif menu == "📚 المكتبة الذهبية العالمية":
     </div>
     """, unsafe_allowed_html=True)
     
-    # المجلس الثقافي البريطاني
     st.markdown("""
     <div class="course-card">
         <div class="course-title">🇬🇧 مسارات الإتقان اللغوي الشامل - British Council</div>
@@ -172,7 +168,6 @@ elif menu == "📜 بوابة الشهادات المعتمدة":
             random_id = random.randint(50000, 99999)
             current_date = datetime.now().strftime("%Y-%m-%d")
             
-            # تصميم شهادة فاخرة جداً ذات طابع ملكي أكاديمي رسمي
             st.markdown(f"""
             <div style="border:15px double #1e3d59; padding:40px; text-align:center; background-color:#fcfaf2; color:#1e3d59; direction: ltr; font-family: 'Times New Roman', serif; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                 <div style="text-align: center; margin-bottom: 10px;">
@@ -180,3 +175,5 @@ elif menu == "📜 بوابة الشهادات المعتمدة":
                 </div>
                 <h1 style="color:#1e3d59; margin:0; font-size: 2.8rem; letter-spacing: 2px;">AL-SAEEDA INTERNATIONAL ACADEMY</h1>
                 <h4 style="color:#17b978; margin:5px 0; font-size: 1.1rem; letter-spacing: 1px;">THE FIRST INTERACTIVE AI PLATFORM IN YEMEN</h4>
+                <hr style="border: 2px dashed #1e3d59; width: 85%; margin: 25px auto;">
+                <h2 style="font-style: italic; font-weight: normal; font-size: 2rem; color: #555;">Certificate of Achievement</h2>
