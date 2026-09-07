@@ -1,6 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import base64
 
 # 1. إعداد الصفحة بأعلى معايير الأداء والملء الكامل للشاشة
 st.set_page_config(
@@ -10,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. تصفير هوامش وعناصر واجهة Streamlit الافتراضية بأمان
+# 2. تصفير هوامش Streamlit لمنح تجربة تطبيق هجين أصيل
 st.markdown("""
     <style>
         #MainMenu, footer, header { display: none !important; }
@@ -19,116 +18,85 @@ st.markdown("""
     </style>
 """, unsafe_allowed_html=True)
 
-# 3. الواجهة الإمبراطورية مشفرة رقمياً لحمايتها 100% ضد التلف والترجمة التلقائية
-cyber_saba_base64 = (
-    "PCFRPQVRZUEUgaHRtbD4NCjxodG1sIGxhbmc9ImFyIiBkaXI9InJ0bCI+DQo8aGVhZD4NCiAgICA8"
-    "bWV0YSBjaGFyc2V0PSJVVEYtOCI+DQogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9"
-    "IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAsIG1heGltdW0tc2NhbGU9MS4w"
-    "LCB1c2VyLXNjYWxhYmxlPW5vIj4NCiAgICA8dGl0bGU+U0FCQSBBQ0FERU1ZIFg8L3RpdGxlPg0K"
-    "ICAgIDxzY3JpcHQgc3JjPSJodHRwczovL2Nkbi50YWlsd2luZGNzcy5jb20iPjwvc2NyaXB0Pg0K"
-    "ICAgIDxzY3JpcHQgc3JjPSJodHRwczovL3VucGtnLmNvbS9sdWNpZGVAbGF0ZXN0Ij48L3Njcmlw"
-    "dD4NCiAgICA8bGluayBocmVmPSJodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFt"
-    "aWx5PUNpbnplbDp3Z2h0QDcwMDs5MDAmZmFtaWx5PU1hcmhleTp3Z2h0QDcwMCZmYW1pbHk9VGFq"
-    "YXdhbDp3Z2h0QDMwMDs1MDA7NzAwOTAwJmRpc3BsYXk9c3dhYiIgcmVsPSJzdHlsZXNoZWV0Ij4N"
-    "ICAgIDxzdHlsZT4NCiAgICAgICAgOnJvb3QgeyAtLWdvbGQtcHJpbWFyeTogI2Q0YWYzNzsgLS12"
-    "b2lkLWJnOiAjMDUwNzBiOyB9DQogICAgICAgIGJvZHkgeyBmb21pTheoreticalLWZhbWlseTog"
-    "J1RhamF3YWwnLCBzYW5zLXNlcmlmOyBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS12b2lkLWJnKTsg"
-    "Y29sb3I6ICNmMWY1Zjk7IG92ZXJmbG93LXg6IGhpZGRlbjsgdXNlci1zZWxlY3Q6IG5vbmU7IH0N"
-    "ICAgICAgICAuY2luemVsIHsgZm9udC1mYW1pbHk6ICdDaW56ZWwnLCBzZXJpZjsgfQ0KICAgICAg"
-    "ICAuZ2xhc3MtcGFuZWwgew0KICAgICAgICAgICAgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50"
-    "KDEzNWRlZywgcmdiYSgxNywgMjQsIDM5LCAwLjc1KSAwJSwgcmdiYSg5LCAxMywgMjIsIDAuOSkg"
-    "MTAwJSk7DQogICAgICAgICAgICBiYWNrZHJvcC1maWx0ZXI6IGJsdXIoMjVweCk7IC13ZWJraXQt"
-    "YmFja2Ryb3AtZmlsdGVyOiBibHVyKDI1cHgpOw0KICAgICAgICAgICAgYm9yZGVyOiAxcHggc29s"
-    "aWQgcmdiYSgyMTIsIDE3NSwgNTUsIDAuMTgpOw0KICAgICAgICAgICAgYm94LXNoYWRvdzogMCAy"
-    "MHB4IDUwcHggcmdiYSgwLCAwLCAwLCAwLjgpOw0KICAgICAgICB9DQogICAgICAgIC5hZ2F0ZS1i"
-    "dXR0b24gew0KICAgICAgICAgICAgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KDEzNWRlZywg"
-    "I2E4MWMxYyAwJSwgIzVlMDgwOCAxMDAlKTsNCiAgICAgICAgICAgIGJveC1zaGFkb3c6IDAgNHB4"
-    "IDIwcHggcmdiYSgxNjgsIDI4LCAyOCwgMC40KTsNCiAgICAgICAgfQ0KICAgICAgICAuY2hpZWYt"
-    "YnRuIHsgYmFja2dyb3VuZDogIzU4Y2MwMjsgYm94LXNoYWRvdzogMCA0cHggMCAjNDZhMzAyOyBj"
-    "b2xvcjogd2hpdGU7IGZvbnQtd2VpZ2h0OiBib2xkOyB9DQogICAgPC9zdHlsZT4NCjwvaGVhZD4N"
-    "PGJvZHkgY2xhc3M9Im1pbi1oLXNjcmVlbiB3LWZ1bGwgZmxleCBqdXN0aWZ5LWNlbnRlciBpdGVt"
-    "cy1jZW50ZXIgcC0wIHNtOnAtNCByZWxhdGl2ZSI+DQogICAgPG1haW4gY2xhc3M9InctZnVsbCBt"
-    "YXgtdy1sZyBoLXNjcmVlbiBzbTpoLVs5NHZoXSBmbGV4IGZsZXgtY29sIGdsYXNzLXBhbmVsIHNt"
-    "OnJvdW5kZWQtWzM2cHhdIHotMTAgb3ZlcmZsb3ctaGlkZGVuIHJlbGF0aXZlIGJvcmRlci0wIHNt"
-    "OmJvcmRlciBib3JkZXItWyNkNGFmMzddLzMwIj4NCiAgICAgICAgPGhlYWRlciBjbGFzcz0icHgt"
-    "NSBweS00IGJvcmRlci1iIGJvcmRlci1ncmF5LTgwMC84MCBiYWNrZ3JvdW5kLWNvbG9yOiByZ2Jh"
-    "KDAsMCwwLDAuNCkgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIHotMjAiPg0KICAg"
-    "ICAgICAgICAgPGRpdiBjbGFzcz0iZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTMiPg0KICAgICAgICAg"
-    "ICAgICAgIDxkaXYgY2xhc3M9InctMTAgaC0xMCByb3VuZGVkLTJ4bCBiZy1ncmFkaWVudC10by10"
-    "ciBmcm9tLWFtYmVyLTYwMCB2aWEteWVsbG93LTQwMCB0by1hbWJlci03MDAgcC1bMS41cHhdIj4N"
-    "ICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJ3LWZ1bGwgaC1mdWxsIGJnLVsjMDkwZDE2"
-    "XSByb3VuZGVkLVsxNHB4XSBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciI+DQogICAg"
-    "ICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0iY2luemVsIHRleHQtYW1iZXItNDAw"
-    "IGZvbnQtYmxhY2sgdGV4dC1sZyI+RFw8L3NwYW4+DQogICAgICAgICAgICAgICAgICAgIDwvZGl2"
-    "Pg0KICAgICAgICAgICAgICAgIDwvZGl2Pg0KICAgICAgICAgICAgICAgIDxkaXY+DQogICAgICAg"
-    "ICAgICAgICAgICAgICAgPGgxIGNsYXNzPSJ0ZXh0LXhzIGZvbnQtYmxhY2sgdHJhY2tpbmctd2lk"
-    "ZXN0IHRleHQtYW1iZXItNDAwLzkwIHVwcGVyY2FzZSBjaW56ZWwiPlNBQkEgQUNBREVNWTwvaDE+"
-    "DQogICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9ImZsZXggaXRlbXMtY2VudGVyIGdhcC0x"
-    "LjUgbXQtMC41Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxpIGRhdGEtbHVjaWRlPSJmbGFt"
-    "ZSIgY2xhc3M9InctMy41IGgtMy41IHRleHQtcmVkLTUwMCBmaWxsLXJlZC01MDAiPmk+DQogICAg"
-    "ICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGlkPSJ4cFNjb3JlIiBjbGFzcz0idGV4dC1zbSBm"
-    "b250LWJsYWNrIHRleHQtZ3JheS0xMDAiPjMyMDwvc3Bhbj4NCiAgICAgICAgICAgICAgICAgICAg"
-    "ICAgIDxzcGFuIGNsYXNzPSJ0ZXh0LVsxMHB4XSB0ZXh0LWFtYmVyLTQwMC83MCBmb250LWJvbGQi"
-    "PlhQPC9zcGFuPg0KICAgICAgICAgICAgICAgICAgICA8LGRpdj4NCiAgICAgICAgICAgICAgICA8"
-    "LGRpdivPg0KICAgICAgICA8L2hlYWRlcj4NCiAgICAgICAgPG5hdiBjbGFzcz0iZ3JpZCBncmlk"
-    "LWNvbHMtMyBiZy1bIzA5MGQxNl0vOTAgcC0xLjUgYm9yZGVyLWIgYm9yZGVyLWdyYXktODAwLzYw"
-    "IHRleHQteHMgZm9udC1ib2xkIHotMjAiPg0KICAgICAgICAgICAgPGJ1dHRvbiBvbmNsaWNrPSJz"
-    "d2l0Y2hUYWIoJ2FyZW5hJykiIGlkPSJidG4tYXJlbmEiIGNsYXNzLCBjbGFzcz0icHktMi41IHJv"
-    "dW5kZWQteGwgdGV4dC1hbWJlci00MDAgYmctYW1iZXItNTAwLzEwIGJvcmRlciBib3JkZXItYW1i"
-    "ZXItNTAwLzMwIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIGdhcC0xLjUiPs💬IG1o"
-    "YXVpciA8L2J1dHRvbj4NCiAgICAgICAgICAgIDxidXR0b24gb25jbGljaz0ic3dpdGNoVGFiKCd2"
-    "b2ljZScpIiBpZD0iYnRuLXZvaWNlIiBjbGFzcz0icHktMi41IHJvdW5kZWQteGwgdGV4dC1ncmF5"
-    "LTQwMCBob3Zlcjp0ZXh0LWdyYXktMjAwIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVy"
-    "IGdhcC0xLjUiPs🎙️IG50cTwvYnV0dG9uPg0KICAgICAgICAgICAgPGJ1dHRvbiBvbmNsaWNrPSJz"
-    "d2l0Y2hUYWIoJ3F1ZXN0JykiIGlkPSJidG4tcXVlc3QiIGNsYXNzPSJweS0yLjUgcm91bmRlZC14"
-    "bCB0ZXh0LWdyYXktNDAwIGhvdmVyOnRleHQtZ3JheS0yMDAgZmxleCBpdGVtcy1jZW50ZXIganVz"
-    "dGlmeS1jZW50ZXI2IGdhcC0xLjUiPs⚡IHRoZGk8L2J1dHRvbj4NCiAgICAgICAgPC9uYXY+DQog"
-    "ICAgICAgIDxkaXYgY2xhc3M9ImZsZXgtMSBvdmVyZmxvdy1oaWRkZW4gcmVsYXRpdmUgei0xMCBm"
-    "bGV4IGZsZXgtY29sIj4NCiAgICAgICAgICAgIDxzZWN0aW9uIGlkPSJ0YWItYXJlbmEiIGNsYXNz"
-    "PSJmbGV4LTEgZmxleC1jb2wganVzdGlmeS1iZXR3ZWVuIG92ZXJmbG93LWhpZGRlbiBwLTQiPg0K"
-    "ICAgICAgICAgICAgICAgIDxkaXYgaWQ9ImNoYXRGZWVkIiBjbGFzcz0iZmxleC0xIG92ZXJmbG93"
-    "LXktYXV0byBzcGFjZS15LTMuNSBwci0xIHRleHQtc20iPg0KICAgICAgICAgICAgICAgICAgICA8"
-    "ZGl2IGNsYXNzPSJmbGV4IGp1c3RpZnktZW5kIj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxk"
-    "aXYgY2xhc3M9ImdsYXNzLXBhbmVsIHAtMy41IHJvdW5kZWQtMnhsIHJvdW5kZWQtdGwtbm9uZSBt"
-    "YXgtdy1bOTAlXSBib3JkZXIgYm9yZGVyLWdyYXktNzAwLzgwIGxlYWRpbmctcmVsYXhlZCB0ZXh0"
-    "LWdyYXktMjAwIj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cCBjbGFzcz0iZm9udC1i"
-    "b2xkIHRleHQtYW1iZXItNDAwIHRleHQtWzExcHhdIG1iLTEiPk1lbnRvciBBSTo8L3A+DQogICAg"
-    "ICAgICAgICAgICAgICAgICAgICAgICAgICBXZWxjb21lISBJIHdpbGwgYmUgeW91ciBBSSBjb2Fj"
-    "aC4gVHlwZSBhbnl0aGluZyBvciBhc2sgbWUgaW4gQXJhYmljL0VuZ2xpc2ggdG8gc3RhcnQgTGVh"
-    "cm5pbmchDQogICAgICAgICAgICAgICAgICAgICAgICA8LGRpdj4NCiAgICAgICAgICAgICAgICAg"
-    "ICAgPC9kaXY+DQogICAgICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgPGRpdiBj"
-    "bGFzcz0ibXQtMyBmbGV4IGl0ZW1zLWYgZ2FwLTIgYmctWyMwYzEyMjBdLzkwIHAtMS41IHJvdW5k"
-    "ZWQtMnhsIGJvcmRlciBib3JkZXItZ3JheS03MDAvNzAiPg0KICAgICAgICAgICAgICAgICAgICA8"
-    "aW5wdXQgaWQ9ImNoYXRGaWVsZCIgdHlwZT0idGV4dCIgcGxhY2Vob2xkZXI9ImFzayBtZSBhbnl0"
-    "aGluZyBoZXJlLi4uIiBjbGFzcz0iZmxleC0xIGJnLXRyYW5zcGFyZW50IHB4LTMgcHktMiB0ZXh0"
-    "LXNtIHRleHQtd2hpdGUgb3V0bGluZS1ub25lIiBkaXI9ImF1dG8iPg0KICAgICAgICAgICAgICAg"
-    "ICAgICA8YnV0dG9uIG9uY2xsaWNrPSJleGVjdXRlQWlUdXJuKCkiIGNsYXNzPSJhZ2F0ZS1idXR0"
-    "b24gcC0yLjUgcm91bmRlZC14bCB0ZXh0LXdoaXRlIj48aSBkYXRhLWx1Y2lkZT0ic3BhcmtsZXMi"
-    "IGNsYXNzPSJ3LTQgaC00Ij48L2k+PC9idXR0b24+DQogICAgICAgICAgICAgICAgPC9kaXY+DQog"
-    "ICAgICAgICAgICA8L3NlY3Rpb24+DQogICAgICAgICAgICA8c2VjdGlvbiBpZD0idGFiLXZvaWNl"
-    "IiBjbGFzcz0iaGlkZGVuIGZsZXgtMSBmbGV4LWNvbCBqdXN0aWZ5LWJldHdlZW4gaXRlbXMtY2Vu"
-    "dGVyIHAtNiB0ZXh0LWNlbnRlciI+DQogICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iZ2xhc3Mt"
-    "cGFuZWwgcC01IHJvdW5kZWQtM3hsIHctZnVsbCI+DQogICAgICAgICAgICAgICAgICAgIDxoMiBp"
-    "ZD0idGd0UGhyYXNlIiBjbGFzcz0idGV4dC1iYXNlIGZvbnQtYmxhY2sgdGV4dC1hbWJlci0zMDAi"
-    "PiJQcmFjdGljZSBtYWtlcyBwcm9ncmVzcywgbm90IHBlcmZlY3Rpb24uIjwvaDI+DQogICAgICAg"
-    "ICAgICAgICAgICAgICAgPGJ1dHRvbiBvbmNsaWNrPSJzcGVha1BocmFzZSgpIiBjbGFzcz0ibXQt"
-    "MyBbgY3MtdGV4dC14cyBiZy13aGl0ZS81IHB4LTMgcHktMS41IHJvdW5kZWQteGwiPuabtSBTcHBl"
-    "YWs8L2J1dHRvbj4NCiAgICAgICAgICAgICAgICA8LGRpdj4NCiAgICAgICAgICAgICAgICA8ZGl2"
-    "IGNsYXNzPSJmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlciI+DQogICAgICAgICAgICAgICAgICAg"
-    "IDxidXR0b24gaWQ9Im1pY0J0biIgb25jbGljaz0idHJpZ2dlck1pYygpIiBjbGFzcz0idy0yNCBo"
-    "LTI0IHJvdW5kZWQtZnVsbCBiZy1yZWQtNjAwIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2Vu"
-    "dGVyIHRleHQtd2hpdGUgc2hhZG93LWxnIj48aSBkYXRhLWx1Y2lkZT0ibWljIiBjbGFzcz0idy04"
-    "IGgtOCI+PC9pPjwvYnV0dG9uPg0KICAgICAgICAgICAgICAgICAgICA8cCBpZD0ibWljTGFiZWwi"
-    "IGNsYXNzPSJ0ZXh0LXhzIHRleHQtZ3JheS00MDAgbXQtMiI+Y2xpY2sgdG8gc3BlYWsgPC9wPg0K"
-    "ICAgICAgICAgICAgICAgIDwvLGRpdj4NCiAgICAgICAgICAgICAgICA8ZGl2IGlkPSJ2b2ljZUZl"
-    "ZWRiYWNrIiBjbGFzcz0idy1mdWxsIGdsYXNzLXBhbmVsIHAtMy41IHJvdW5kZWQtMnhsIHRleHQt"
-    "eHMiPlJlc3VsdHMgd2lsbCBhcHBlYXIgaGVyZS4uLjwvZGl2Pg0KICAgICAgICAgICAgPC9zZWN0"
-    "aW9uPg0KICAgICAgICAgICAgPHNlY3Rpb24gaWQ9InRhYi1xdWVzdCIgY2xhc3M9ImhpZGRlbiBm"
-    "bGV4LTEgZmxleC1jb2wganVzdGlmeS1iZXR3ZWVuIHAtNSI+DQogICAgICAgICAgICAgICAgPGRp"
-    "diBjbGFzcz0ibXktYXV0byBzcGFjZS15LTQiPg0KICAgICAgICAgICAgICAgICAgICA8aDMgY2xh"
-    "c3M9InRleHQtYmFzZSBmb250LWJsYWNrIHRleHQtY2VudGVyIHRleHQtYW1iZXItMzAwIj5Ib3cg"
-    "ZG8geW91IHNheSAic3VyZSIgcHJvZmVzc2lvbmFsbHk/PC9oMz4NCiAgICAgICAgICAgICAgICAg"
-    "ICAgPGRpdiBjbGFzcz0ic3BhY2UteS0yLjUiPg0KICAgICAgICAgICAgICAgICAgICAgICAgPGJ1"
-    "dHRvbiBvbmNsaWNrPSJldmFsUXVlc3QodGhpcyx0cnVlKSIgY2xhc3M9InctZnVsbCBwLTMuNSBn"
-    "bGFzcy1wYW5lbCByb3VuZGVkLTJ4bCB0ZXh0LXJpZ2h0Ij5BKSBDZXJ0YWlubHksIEkgd2lsbCBk"
-    "byBpdC48L2J1dHRvbj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxidXR0b24gb25jbGljaz0i"
+# 3. الشيفرة الهندسية الموحدة للواجهة (HTML5 / CSS3 / JavaScript Engine)
+cyber_saba_app = """<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SABA ACADEMY X</title>
+    <script src="https://tailwindcss.com"></script>
+    <script src="https://unpkg.com"></script>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Tajawal', sans-serif; background-color: #05070b; color: #f1f5f9; }
+        .glass-panel { background: linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(9, 13, 22, 0.95) 100%); border: 1px solid rgba(212, 175, 55, 0.18); }
+        .agate-button { background: linear-gradient(135deg, #a81c1c 0%, #5e0808 100%); }
+    </style>
+</head>
+<body class="min-h-screen w-full flex justify-center items-center p-0 sm:p-4">
+    <main class="w-full max-w-lg h-screen sm:h-[94vh] flex flex-col glass-panel sm:rounded-[36px] overflow-hidden relative">
+        <header class="px-5 py-4 border-b border-gray-800 bg-black/40 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-amber-400 font-black text-lg">𐩯</span>
+                <div>
+                    <h1 class="text-xs font-black text-amber-400">SABA ACADEMY</h1>
+                    <span id="xpScore" class="text-sm font-black text-gray-100">320 XP</span>
+                </div>
+            </div>
+            <select id="govSelector" onchange="alert('تم نقلك لدوري المحافظات!')" class="bg-[#131b2e] text-[11px] font-bold text-amber-200 py-1.5 px-3 rounded-xl border border-amber-500/30">
+                <option value="الحديدة">الحديدة ⚓</option>
+                <option value="صنعاء">صنعاء 🏛️</option>
+                <option value="عدن">عدن 🌊</option>
+            </select>
+        </header>
+        <nav class="grid grid-cols-3 bg-[#090d16] p-1.5 border-b border-gray-800 text-xs font-bold text-center">
+            <button onclick="switchTab('arena')" id="btn-arena" class="py-2.5 rounded-xl text-amber-400 bg-amber-500/10">💬 المحاكي</button>
+            <button onclick="switchTab('voice')" id="btn-voice" class="py-2.5 rounded-xl text-gray-400">🎙️ مختبر النطق</button>
+            <button onclick="switchTab('quest')" id="btn-quest" class="py-2.5 rounded-xl text-gray-400">⚡ التحدي</button>
+        </nav>
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <section id="tab-arena" class="flex-1 flex flex-col justify-between p-4">
+                <div id="chatFeed" class="flex-1 overflow-y-auto space-y-3 text-sm">
+                    <div class="flex justify-end">
+                        <div class="glass-panel p-3.5 rounded-2xl text-gray-200">
+                            <b>HR Director:</b> Welcome! Why are you the ideal candidate for this remote position from Yemen?
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 flex items-center gap-2 bg-[#0c1220] p-1.5 rounded-2xl border border-gray-700">
+                    <input id="chatField" type="text" placeholder="اكتب ردك بالإنجليزية هنا..." class="flex-1 bg-transparent px-3 py-2 text-sm text-white outline-none text-right">
+                    <button onclick="executeAiTurn()" class="agate-button p-2.5 rounded-xl text-white">🚀</button>
+                </div>
+            </section>
+            <section id="tab-voice" class="hidden flex-1 flex flex-col justify-between items-center p-6 text-center">
+                <h2 class="text-amber-300 font-bold">"Opportunities don't happen, you create them."</h2>
+                <button id="masterMicBtn" onclick="triggerSpeechLab()" class="w-24 h-24 rounded-full bg-red-600 text-white font-bold">🎤 ابدأ الآن</button>
+                <div id="voiceScoreCard" class="text-xs text-gray-400">اضغط وتحدث ليتم تقييم نطقك تلقائياً...</div>
+            </section>
+            <section id="tab-quest" class="hidden flex-1 p-5 flex flex-col justify-center text-center space-y-4">
+                <h3 class="text-amber-300 font-bold">ما هو الرد الأذكى إذا طلب العميل خفض سعرك 50%؟</h3>
+                <button onclick="alert('✨ إجابة احترافية ممتازة!')" class="w-full p-3.5 glass-panel rounded-2xl text-right text-sm">A) My rate reflects the quality and value I deliver.</button>
+                <button onclick="alert('⚠️ خيار يقلل من قيمتك في سوق العمل!')" class="w-full p-3.5 glass-panel rounded-2xl text-right text-sm">B) I accept the discount immediately.</button>
+            </section>
+        </div>
+    </main>
+    <script>
+        lucide.createIcons();
+        function switchTab(name) {
+            ['arena', 'voice', 'quest'].forEach(t => { document.getElementById('tab-' + t).classList.add('hidden'); document.getElementById('btn-' + t).className = 'py-2.5 rounded-xl text-gray-400'; });
+            document.getElementById('tab-' + name).classList.remove('hidden'); document.getElementById('btn-' + name).className = 'py-2.5 rounded-xl text-amber-400 bg-amber-500/10';
+        }
+        function triggerSpeechLab() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) { alert("يرجى استخدام متصفح Chrome لتفعيل لاقط الصوت."); return; }
+            const rec = new SpeechRec(); rec.lang = 'en-US';
+            document.getElementById('voiceScoreCard').innerText = "جاري الاستماع..."; rec.start();
+            rec.onresult = (e) => { document.getElementById('voiceScoreCard').innerHTML = "🟢 نطق ممتاز ومفهوم! سمعنا: " + e.results[0][0].transcript; };
+        }
+    </script>
+</body>
+</html>
+"""
+
+components.html(cyber_saba_app, height=940, scrolling=False)
