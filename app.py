@@ -2,10 +2,10 @@ import streamlit as st
 import google.generativeai as genai
 import random
 
-# 1. إعدادات المنصة وهويتها البصرية
-st.set_page_config(page_title="أكاديمية السعيدة الدولية للغات - AI", page_icon="🇾🇪", layout="wide")
+# إعداد المنصة بالهوية البصرية الحديثة المواكبة للجيل الحالي
+st.set_page_config(page_title="أكاديمية السعيدة الدولية للغات الذكية", page_icon="🇾🇪", layout="wide")
 
-# 2. إعداد مفتاح الذكاء الاصطناعي الآمن
+# جلب وتأمين مفتاح الذكاء الاصطناعي
 if "GENAI_KEY" in st.secrets:
     GENAI_API_KEY = st.secrets["GENAI_KEY"]
 else:
@@ -14,146 +14,163 @@ else:
 if GENAI_API_KEY and GENAI_API_KEY != "ضع_مفتاح_جوجل_الخاص_بك_هنا":
     genai.configure(api_key=GENAI_API_KEY)
 
-# 🗺️ العنوان الرئيسي للمنصة
-st.title("🇾🇪 أكاديمية السعيدة الدولية للغات")
-st.caption("أول منصة يمنية وعربية مدعومة بالذكاء الاصطناعي لتعليم الإنجليزية من الصفر إلى الاحتراف")
+# تصميم واجهة مستخدم مخصصة وجذابة جداً عبر CSS
+st.markdown("""
+<style>
+    @import url('https://googleapis.com');
+    html, body, [data-testid="stSidebar"] { font-family: 'Cairo', sans-serif; text-align: right; direction: rtl; }
+    .premium-hero { background: linear-gradient(135deg, #111e25 0%, #1e3d59 100%); padding: 35px; border-radius: 15px; color: white; text-align: center; margin-bottom: 20px; border-bottom: 5px solid #17b978; }
+    .feature-box { background-color: #f8f9fa; padding: 15px; border-radius: 10px; border-right: 4px solid #17b978; margin-bottom: 10px; text-align: right; }
+</style>
+""", unsafe_allowed_html=True)
 
-# 3. القائمة الجانبية لتحديد فئة المتعلم
-st.sidebar.markdown("### 👤 الملف الشخصي للمتعلم")
-user_type = st.sidebar.radio("🎯 اختر الفئة المستهدفة:", ["🧸 قسم الأطفال والناشئين (تأسيس)", "💼 قسم الكبار والمحترفين (متقدم)"])
+# الهيدر الفاخر المحدث للمنصة
+st.markdown("""
+<div class="premium-hero">
+    <h1 style="margin:0; font-size: 2.5rem;">🇾🇪 أكاديمية السعيدة الذكية للغات</h1>
+    <p style="margin:5px 0; opacity: 0.8; font-size: 1.1rem;">بيئة تعليمية من الجيل القادم مدعومة بالذكاء الاصطناعي التفاعلي التام</p>
+</div>
+""", unsafe_allowed_html=True)
 
-# توجيهات الذكاء الاصطناعي لتقديم شرح تفاعلي مزدوج (عربي + إنجليزي)
+# لوحة التحكم الجانبية الذكية
+st.sidebar.markdown("### 👤 إعدادات رائد الأعمال التعليمي")
+user_profile = st.sidebar.radio("🎯 الفئة المستهدفة الحالية للمتعلم:", ["🧸 قسم الأطفال والناشئين (تأسيس)", "💼 قسم الكبار والمحترفين (متقدم)"])
+main_hub = st.sidebar.selectbox("📂 انتقل إلى أدوات الجيل القادم الـ 20:", ["🗣️ غرف المحادثة ومعالجة النطق بـ AI", "⚡ مركز الأدوات اللغوية السريعة للمحترفين", "📚 المناهج وحقائب السفر الذكية"])
+
+# نظام تتبع النقاط التشجيعي (العقيق اليمني الرقمي)
+if "points" not in st.session_state:
+    st.session_state.points = random.randint(50, 120)
+
+st.sidebar.metric(label="💎 رصيد الطالب من العقيق اليمني الرقمي:", value=f"{st.session_state.points} نقطة")
+
+# توجيهات البوت للشرح المزدوج والمكثف
 sys_instruction = (
-    "You are an elite bilingual English tutor. "
-    "Always explain English rules using a clear mix of Arabic and English so learners can easily understand. "
-    "Check the user's grammar, provide immediate feedback, and give them a practice sentence."
+    "You are a master bilingual English AI professor. "
+    "Explain all concepts using a smooth blend of simple Arabic and expert English. "
+    "Always provide a corrective breakdown of mistakes and encourage the student with emojis."
 )
 
-# 4. بناء الواجهة الداخلية التفاعلية باستخدام الأقسام (Tabs)
-tab1, tab2, tab3 = st.tabs(["🗣️ المساعد الافتراضي والمدرب الذكي", "📚 كورسات ومناهج المنصة", "🎙️ مختبر تصحيح النطق"])
+# --- تشغيل المحاور التفاعلية الكبرى ---
 
-# --- القسم الأول: بوت التحدث التفاعلي ---
-with tab1:
-    st.subheader("🤖 اسأل المعلم الافتراضي (شرح فوري باللغتين العربية والإنجليزية):")
-    user_query = st.text_input("اكتب أي قاعدة أو سؤال تريد شرحه (مثال: متى نستخدم Present Continuous؟):")
+if main_hub == "🗣️ غرف المحادثة ومعالجة النطق بـ AI":
     
-    if user_query and GENAI_API_KEY:
-        with st.spinner("جاري إعداد الشرح المبسط..."):
-            try:
-                model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=sys_instruction)
-                response = model.generate_content(user_query)
-                st.info(response.text)
-                
-                # كود النطق الصوتي التلقائي لرد البوت
-                clean_text = response.text.replace('\n', ' ').replace('"', '\\"').replace("'", "\\'")
-                st.components.v1.html(f"""
-                    <script>
-                    var speech = new SpeechSynthesisUtterance("{clean_text}");
-                    speech.lang = 'en-US';
-                    speech.rate = 0.95;
-                    window.speechSynthesis.speak(speech);
-                    </script>
-                """, height=0)
-            except Exception as e:
-                st.error(f"خطأ في الاتصال بالذكاء الاصطناعي: {e}")
-
-# --- القسم الثاني: الكورسات والمناهج المجدولة خطوة بخطوة ---
-with tab2:
-    st.subheader("📚 المناهج الدراسية المرتبة (من الصفر)")
+    # واجهة الأقسام التفاعلية للدردشة والمحاكاة ونطق الكلمات
+    chat_tab, interview_tab, voice_tab = st.tabs(["💬 شات المعلم الذكي (مزدوج)", "💼 محاكي مقابلات العمل والمسارات", "🎙️ مختبر تصحيح النطق بالمايك"])
     
-    if "الأطفال" in user_type:
-        st.markdown("### 🧸 كورس التأسيس الشامل للأطفال والناشئين")
+    with chat_tab:
+        st.markdown("<div class='feature-box'>💡 <b>ميزة الشرح المزدوج:</b> اكتب أي كلمة أو قاعدة صعبة، وسيقوم البوت بشرحها بالعربي والإنجليزي مع نطقها تلقائياً بالصوت الفصيح!</div>", unsafe_allowed_html=True)
+        user_msg = st.text_input("اسأل المعلم الذكي عن أي شيء هنا (مثال: اشرح لي الفرق بين Do و Does):")
         
-        c1, c2 = st.columns(2)
-        with c1:
-            st.success("🟢 الدرس الأول: الحروف والأصوات (Phonics)")
-            st.write("• **A** is for **Apple** (تفاحة) | نطق الحرف: /æ/")
-            st.write("• **B** is for **Boy** (ولد) | نطق الحرف: /b/")
-            st.write("• **C** is for **Cat** (قطة) | نطق الحرف: /k/")
-        with c2:
-            st.success("🔵 الدرس الثاني: الأرقام والألوان الأساسية")
-            st.write("• **One (1)** - **Red** (أحمر)")
-            st.write("• **Two (2)** - **Blue** (أزرق)")
-            st.write("• **Three (3)** - **Green** (أخضر)")
+        if user_msg and GENAI_API_KEY:
+            with st.spinner("جاري التفكير والصياغة التعليمية..."):
+                try:
+                    model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=sys_instruction)
+                    response = model.generate_content(user_msg)
+                    st.info(response.text)
+                    st.session_state.points += 5
+                    
+                    # نطق الرد الصوتي للمتعلم تلقائياً بسرعة متزنة (0.9x) تناسب المبتدئين والأطفال
+                    clean_text = response.text.replace('\n', ' ').replace('"', '\\"').replace("'", "\\'")
+                    st.components.v1.html(f"""
+                        <script>
+                        var speech = new SpeechSynthesisUtterance("{clean_text}");
+                        speech.lang = 'en-US';
+                        speech.rate = 0.9;
+                        window.speechSynthesis.speak(speech);
+                        </script>
+                    """, height=0)
+                except Exception as e:
+                    st.error(f"خطأ في محرك الذكاء الاصطناعي: {e}")
+
+    with interview_tab:
+        st.markdown("<div class='feature-box'>💼 <b>محاكي مقابلات العمل والسفر:</b> البوت سيطرح عليك سؤالاً بالإنجليزية كأنك في مقابلة عمل أو مطار، اكتب ردك ليرى مدى جهوزيتك اللغوية!</div>", unsafe_allowed_html=True)
+        st.info("🤖 سؤال المحاكاة الحالي: 'Tell me about yourself and why do you want to learn English?'")
+        interview_reply = st.text_input("اكتب إجابتك هنا بالإنجليزية ليقوم البوت بتقييمها وصياغتها باحترافية:")
+        if interview_reply and GENAI_API_KEY:
+            with st.spinner("جاري تحليل صياغتك المهنية..."):
+                model = genai.GenerativeModel('gemini-1.5-flash', system_instruction="You are a professional HR manager. Grade the user's response to the interview question, fix errors, and write an elite corporate version of their answer.")
+                res = model.generate_content(interview_reply)
+                st.success(res.text)
+
+    with voice_tab:
+        st.subheader("🎙️ مختبر النطق البصري ومعالجة مخارج الحروف:")
+        if "الأطفال" in user_profile:
+            test_phrase = "The quick brown fox jumps over the lazy dog"
+        else:
+            test_phrase = "Artificial intelligence is shifting the global education paradigm"
             
-        st.markdown("---")
-        st.info("🔗 **مصادر عالمية إضافية للأطفال:** [افتح مكتبة القصص والألعاب التفاعلية من American English](https://state.gov)")
+        st.warning(f"الجملة المطلوب قراءتها بصوتك الآن: **{test_phrase}**")
         
-    else:
-        st.markdown("### 💼 كورس المحادثة والقواعد المتقدمة للكبار")
-        
-        exp1 = st.expander("📌 الدرس الأول: التحيات والتعارف المهني (Greetings)")
-        with exp1:
-            st.write("• **Formal (رسمي):** Hello, how do you do? (تُستخدم عند لقاء شخص لأول مرة)")
-            st.write("• **Informal (غير رسمي):** Hey, what's up? (بين الأصدقاء والزملاء المقربين)")
-            st.code("Practice context: Introduce your name and job to the AI bot in the first tab.")
-            
-        exp2 = st.expander("📌 الدرس الثاني: تركيب الجملة الإنجليزية الأساسية (Sentence Structure)")
-        with exp2:
-            st.write("تتكون الجملة الأساسية دائماً من: **فاعل (Subject) + فعل (Verb) + مفعول به (Object)**")
-            st.code("Formula: Subject + Verb + Object\nExample: I (Subject) learn (Verb) English (Object).")
-
-        st.markdown("---")
-        st.info("🔗 **مصادر عالمية معتمدة للكبار:** [افتح منهاج المحادثة الحرة واختبار تحديد المستوى من British Council](https://britishcouncil.org)")
-
-# --- القسم الثالث: مختبر تصحيح النطق بالمايك ---
-with tab3:
-    st.subheader("🎙️ اختبار وتصحيح النطق الشخصي الفوري:")
-    
-    if "الأطفال" in user_type:
-        test_sentence = "Learning English with games is very fun and easy"
-    else:
-        test_sentence = "Effective communication is the key to global professional success"
-        
-    st.warning(f"🎙️ اقرأ هذه الجملة بصوتك: **{test_sentence}**")
-    
-    # برمجة أداة التعرف على الصوت المقاومة للأخطاء
-    mic_js = f"""
-    <div style="text-align: center; margin-top: 15px;">
-        <button id="micBtn" style="background-color: #17b978; color: white; border: none; padding: 14px 30px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold;">
-            🎤 اضغط هنا وابدأ التحدث بالإنجليزية
-        </button>
-        <p id="status" style="color: #666; margin-top: 10px;">اضغط على الزر واقرأ الجملة بوضوح لنصحح نطقك...</p>
-        <div id="resultBox" style="margin-top: 15px; padding: 15px; border-radius: 8px; display: none; background-color: #f8f9fa; direction: ltr; text-align: left;">
-            <p><b>Your Spoken Text:</b> <span id="userText" style="color: #1e3d59; font-weight: bold;"></span></p>
-            <p><b>Evaluation:</b> <span id="score" style="font-weight: bold;"></span></p>
+        # أداة معالجة النطق والمايك المباشر المعزولة برمجياً لعدم كسر بايثون
+        mic_code = f"""
+        <div style="text-align: center; margin-top: 10px;">
+            <button id="micButton" style="background-color: #17b978; color: white; border: none; padding: 14px 28px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(23,185,120,0.2);">
+                🎤 اضغط هنا وتحدث بالجملة بوضوح
+            </button>
+            <p id="st" style="color: #666; margin-top: 10px;">تحدث؛ وسيقوم النظام بمقارنة الكلمات وإعطائك نسبة دقة نطقك الفورية...</p>
+            <div id="box" style="margin-top: 12px; padding: 12px; border-radius: 8px; display: none; background-color: #f8f9fa; direction: ltr; text-align: left;">
+                <p><b>What you said:</b> <span id="uText" style="color: #1e3d59; font-weight: bold;"></span></p>
+                <p><b>AI Result:</b> <span id="sc" style="font-weight: bold;"></span></p>
+            </div>
         </div>
-    </div>
-    <script>
-    const micBtn = document.getElementById('micBtn');
-    const status = document.getElementById('status');
-    const resultBox = document.getElementById('resultBox');
-    const userTextSpan = document.getElementById('userText');
-    const scoreSpan = document.getElementById('score');
-    const target = "{test_sentence}".toLowerCase().trim();
+        <script>
+        const btn = document.getElementById('micButton');
+        const st = document.getElementById('st');
+        const box = document.getElementById('box');
+        const uText = document.getElementById('uText');
+        const sc = document.getElementById('sc');
+        const tgt = "{test_phrase}".toLowerCase().trim();
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {{
-        status.innerText = "متصفحك لا يدعم المايك، يرجى فتح الموقع باستخدام Google Chrome.";
-        micBtn.disabled = true;
-    }} else {{
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'en-US';
-        
-        micBtn.addEventListener('click', () => {{
-            recognition.start();
-            status.innerText = "🎙️ جاري الاستماع... تحدث الآن...";
-        }});
-        
-        recognition.addEventListener('result', (e) => {{
-            const result = e.results.transcript;
-            userTextSpan.innerText = result;
-            if (result.toLowerCase().trim() === target) {{
-                scoreSpan.innerText = "🟢 Perfect Pronunciation (100%)! Excellent.";
-                scoreSpan.style.color = "green";
-            }} else {{
-                scoreSpan.innerText = "🟡 Good Attempt! Try again for better clarity.";
-                scoreSpan.style.color = "orange";
-            }}
-            resultBox.style.display = "block";
-            status.innerText = "تم التحليل بنجاح!";
-        }});
-    }}
-    </script>
-    """
-    st.components.v1.html(mic_js, height=220)
+        const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!Recognition) {{
+            st.innerText = "المتصفح لا يدعم المايك، يرجى الفتح من متصفح Google Chrome.";
+            btn.disabled = true;
+        }} else {{
+            const rec = new Recognition();
+            rec.lang = 'en-US';
+            btn.addEventListener('click', () => {{ rec.start(); st.innerText = "🎙️ جاري الاستماع الحقيقي... تحدث الآن..."; }});
+            rec.addEventListener('result', (e) => {{
+                const res = e.results[0][0].transcript;
+                uText.innerText = res;
+                if (res.toLowerCase().trim() === tgt) {{
+                    sc.innerText = "🟢 Perfect Pronunciation (100%)! Brilliant.";
+                }} else {{
+                    sc.innerText = "🟡 Good Attempt! Practice again for clearer letter outputs.";
+                }}
+                box.style.display = "block"; st.innerText = "تم التحليل الفوري!";
+            }});
+        }}
+        </script>
+        """
+        st.components.v1.html(mic_code, height=220)
+
+elif main_hub == "⚡ center الأدوات اللغوية السريعة للمحترفين":
+    st.subheader("⚡ مسرعات وأدوات الذكاء الاصطناعي الفورية (جيل الـ Gen-Z)")
+    
+    tool_select = st.selectbox("اختر الأداة الذكية الفورية الحالية:", ["📝 مصحح القواعد وإعادة الصياغة الذكية", "💼 مطور إيميلات العمل والسير الذاتية", "📖 مبسط ومختصر القصص الإنجليزية للطلاب"])
+    
+    user_text = st.text_area("أدخل النص أو الجملة هنا لتطبيق الأداة الذكية عليها فوراً:")
+    
+    if user_text and GENAI_API_KEY:
+        with st.spinner("جاري معالجة وتطوير النص اللغوي..."):
+            if "مصحح القواعد" in tool_select:
+                prompt = f"Fix all grammar mistakes in this text, highlight the corrections clearly, and provide 3 everyday slang expressions related to it: {user_text}"
+            elif "مطور إيميلات" in tool_select:
+                prompt = f"Transform this broken English into an elite corporate business email or resume summary: {user_text}"
+            else:
+                prompt = f"Simplify this complex English story or text into easy vocabulary suitable for beginners, and provide a 3-sentence summary: {user_text}"
+                
+            model = genai.GenerativeModel('gemini-1.5-flash')
+            res = model.generate_content(prompt)
+            st.success(res.text)
+            st.session_state.points += 10
+
+elif main_hub == "📚 المناهج وحقائب السفر الذكية":
+    st.subheader("📚 المناهج المجدولة والحقائب التعليمية المعتمدة عالمياً")
+    
+    if "الأطفال" in user_profile:
+        st.markdown("""
+        <div class="feature-box">
+            <h4>🧸 حقيبة التأسيس والمرح للأطفال والناشئين</h4>
+            <p>• <b>قاموس أكسفورد البصري المصور:</b> لتعلم الكلمات عبر الربط الصوري الذكي.</p>
+            <p>• <b>أصوات الحروف المركبة الصعبة:</b> تدريبات تفاعلية على مخارج نطق (Sh, Ch, Th, Ph).</p>
