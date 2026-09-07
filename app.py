@@ -3,10 +3,10 @@ import google.generativeai as genai
 import random
 from datetime import datetime
 
-# 1. إعدادات المنصة الاحترافية وتأمين الواجهة
+# 1. Platform Settings
 st.set_page_config(page_title="أكاديمية اليمن الدولية للغات - AI", page_icon="🇾🇪", layout="wide")
 
-# 2. جلب وتأمين مفتاح الذكاء الاصطناعي
+# 2. API Key Configuration
 if "GENAI_KEY" in st.secrets:
     GENAI_API_KEY = st.secrets["GENAI_KEY"]
 else:
@@ -15,7 +15,7 @@ else:
 if GENAI_API_KEY and GENAI_API_KEY != "ضع_مفتاح_جوجل_الخاص_بك_هنا":
     genai.configure(api_key=GENAI_API_KEY)
 
-# 🎨 تصميم فاخر ومميز ينافس المنصات العالمية (CSS الاحترافي)
+# 🎨 Modern CSS UI
 st.markdown("""
 <style>
     @import url('https://googleapis.com');
@@ -32,15 +32,15 @@ st.markdown("""
 </style>
 """, unsafe_allowed_html=True)
 
-# 🗺️ الهيدر الرئيسي الفاخر للمنصة
+# 🗺️ Main Header
 st.markdown("""
 <div class="hero-section">
     <div class="main-title">🇾🇪 أكاديمية السعيدة الدولية للغات</div>
-    <div class="sub-title">أول منصة يمنية وعربية مدعومة بالذكاء الاصطناعي التفاعلي بالكامل لتعليم الإنجليزية من الصفر</div>
+    <div class="sub-title">أول منصة يمنية وعربية مدعومة بالذكاء الاصطناعي لتعليم الإنجليزية من الصفر</div>
 </div>
 """, unsafe_allowed_html=True)
 
-# 3. القائمة الجانبية الأنيقة
+# 3. Sidebar Menu
 st.sidebar.markdown("### 🌐 لوحة التحكم التعليمية")
 user_type = st.sidebar.radio("🎯 الفئة المستهدفة الحالية:", ["🧸 قسم الأطفال والناشئين", "💼 قسم الكبار والمحترفين"])
 menu = st.sidebar.selectbox("📂 انتقل إلى:", ["🗣️ بوت التحدث وتصحيح النطق", "📚 المكتبة الذهبية العالمية", "📜 بوابة الشهادات المعتمدة"])
@@ -51,8 +51,7 @@ sys_instruction = (
     "Analyze the user's input, provide instant guidance, and correct any structural flaws."
 )
 
-# --- تشغيل الأقسام بناءً على الاختيار ---
-
+# --- Features ---
 if menu == "🗣️ بوت التحدث وتصحيح النطق":
     st.subheader("🤖 المحاور الذكي والمعلم الافتراضي:")
     user_query = st.text_input("اسأل عن أي قاعدة، أو اكتب جملة وترجمتها (مثال: شرح قاعدة Used to مع أمثلة):")
@@ -64,7 +63,6 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
                 response = model.generate_content(user_query)
                 st.info(response.text)
                 
-                # نطق الرد تلقائياً للتدريب على الاستماع
                 clean_text = response.text.replace('\n', ' ').replace('"', '\\"').replace("'", "\\'")
                 st.components.v1.html(f"""
                     <script>
@@ -138,7 +136,6 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
 
 elif menu == "📚 المكتبة الذهبية العالمية":
     st.subheader("📚 المناهج الحصرية المعتمدة عالمياً ومجاناً 100%")
-    st.write("تم دمج أقوى المقررات الدولية الصادرة من كبرى المؤسسات الأكاديمية العالمية لتوفير محتوى تعليمي لا ينافس:")
     
     st.markdown("""
     <div class="course-card">
@@ -158,7 +155,6 @@ elif menu == "📚 المكتبة الذهبية العالمية":
 
 elif menu == "📜 بوابة الشهادات المعتمدة":
     st.subheader("📜 نظام التوثيق وإصدار الشهادات الأكاديمية الفورية")
-    st.write("عند إتمامك التدريبات اليومية بنجاح، يمكنك توليد شهادتك الموثقة من النظام التلقائي للمنصة:")
     
     student_name = st.text_input("اكتب اسمك الثلاثي باللغة الإنجليزية بدقة (كما تود رؤيته في الشهادة):")
     
@@ -168,7 +164,7 @@ elif menu == "📜 بوابة الشهادات المعتمدة":
             random_id = random.randint(50000, 99999)
             current_date = datetime.now().strftime("%Y-%m-%d")
             
-            st.markdown(f"""
+            certificate_html = f"""
             <div style="border:15px double #1e3d59; padding:40px; text-align:center; background-color:#fcfaf2; color:#1e3d59; direction: ltr; font-family: 'Times New Roman', serif; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                 <div style="text-align: center; margin-bottom: 10px;">
                     <span style="font-size: 35px;">👑</span>
@@ -177,3 +173,5 @@ elif menu == "📜 بوابة الشهادات المعتمدة":
                 <h4 style="color:#17b978; margin:5px 0; font-size: 1.1rem; letter-spacing: 1px;">THE FIRST INTERACTIVE AI PLATFORM IN YEMEN</h4>
                 <hr style="border: 2px dashed #1e3d59; width: 85%; margin: 25px auto;">
                 <h2 style="font-style: italic; font-weight: normal; font-size: 2rem; color: #555;">Certificate of Achievement</h2>
+                <p style="font-size: 1.3rem; margin: 20px 0;">This academic credential is proudly conferred upon</p>
+                <h1 style="font-size: 3.2rem; color: #1e3d59; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);"><b>{student_name.upper()}</b></h1>
