@@ -85,7 +85,6 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
         
     st.warning(f"🎙️ الجملة المطلوب قراءتها الآن بصوتك: **{test_sentence}**")
     
-    # واجهة زر المايك مع عزل الأقواس المتعرجة برمجياً لعدم كسر الكود
     mic_js = f"""
     <div style="text-align: center; font-family: 'Cairo', sans-serif; margin-top: 10px;">
         <button id="micBtn" style="background-color: #17b978; color: white; border: none; padding: 15px 35px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(23,185,120,0.3); transition: 0.3s;">
@@ -166,8 +165,8 @@ elif menu == "📜 بوابة الشهادات المعتمدة":
             random_id = random.randint(50000, 99999)
             current_date = datetime.now().strftime("%Y-%m-%d")
             
-            # تم إصلاح أخطاء علامات الاقتباس والأقواس المتعرجة هنا جذرياً
-            certificate_html = f"""
+            # تم إزالة الـ f وحل مشكلة التعارض بشكل نهائي هنا
+            certificate_template = """
             <div style="border:15px double #1e3d59; padding:40px; text-align:center; background-color:#fcfaf2; color:#1e3d59; direction: ltr; font-family: 'Times New Roman', serif; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                 <div style="text-align: center; margin-bottom: 10px;">
                     <span style="font-size: 35px;">👑</span>
@@ -177,4 +176,4 @@ elif menu == "📜 بوابة الشهادات المعتمدة":
                 <hr style="border: 2px dashed #1e3d59; width: 85%; margin: 25px auto;">
                 <h2 style="font-style: italic; font-weight: normal; font-size: 2rem; color: #555;">Certificate of Achievement</h2>
                 <p style="font-size: 1.3rem; margin: 20px 0;">This academic credential is proudly conferred upon</p>
-                <h1 style="font-size: 3.2rem; color: #1e3d59; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);"><b>{student_name.upper()}</b></h1>
+                <h1 style="font-size: 3.2rem; color: #1e3d59; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);"><b>{NAME}</b></h1>
