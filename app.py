@@ -1,7 +1,5 @@
 import streamlit as st
 import google.generativeai as genai
-import random
-from datetime import datetime
 
 # 1. Platform Settings
 st.set_page_config(page_title="أكاديمية اليمن الدولية للغات - AI", page_icon="🇾🇪", layout="wide")
@@ -15,14 +13,14 @@ else:
 if GENAI_API_KEY and GENAI_API_KEY != "ضع_مفتاح_جوجل_الخاص_بك_هنا":
     genai.configure(api_key=GENAI_API_KEY)
 
-# Modern Custom UI via text markdown
-st.markdown("<h1 style='text-align:center; color:#1e3d59;'>🇾🇪 أكاديمية السعيدة الدولية للغات</h1>", unsafe_allowed_html=True)
-st.markdown("<p style='text-align:center; color:#555;'>أول منصة يمنية وعربية مدعومة بالذكاء الاصطناعي لتعليم الإنجليزية من الصفر</p>", unsafe_allowed_html=True)
+# Simple Native Titles (No HTML to prevent errors)
+st.title("🇾🇪 أكاديمية السعيدة الدولية للغات")
+st.caption("أول منصة يمنية وعربية مدعومة بالذكاء الاصطناعي لتعليم الإنجليزية من الصفر")
 
 # Sidebar Menu
 st.sidebar.markdown("### 🌐 لوحة التحكم التعليمية")
 user_type = st.sidebar.radio("🎯 الفئة المستهدفة الحالية:", ["🧸 قسم الأطفال والناشئين", "💼 قسم الكبار والمحترفين"])
-menu = st.sidebar.selectbox("📂 انتقل إلى:", ["🗣️ بوت التحدث وتصحيح النطق", "📚 المكتبة الذهبية العالمية", "📜 بوابة الشهادات المعتمدة"])
+menu = st.sidebar.selectbox("📂 انتقل إلى:", ["🗣️ بوت التحدث وتصحيح النطق", "📚 المكتبة الذهبية العالمية"])
 
 sys_instruction = (
     "You are an elite bilingual English professor. "
@@ -42,7 +40,7 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
                 response = model.generate_content(user_query)
                 st.info(response.text)
                 
-                clean_text = response.text.replace('\n', ' ').replace('\n', ' ').replace('"', '\\"').replace("'", "\\'")
+                clean_text = response.text.replace('\n', ' ').replace('"', '\\"').replace("'", "\\'")
                 st.components.v1.html(f"""
                     <script>
                     var speech = new SpeechSynthesisUtterance("{clean_text}");
@@ -113,32 +111,5 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
 elif menu == "📚 المكتبة الذهبية العالمية":
     st.subheader("📚 المناهج الحصرية المعتمدة عالمياً ومجاناً 100%")
     st.info("💡 تم ربط المنصة مباشرة بأقوى المسارات العالمية المفتوحة للدراسة الحرة واستخراج الشهادات الدولية:")
-    st.markdown("[🇺🇸 اضغط هنا للتسجيل الفوري في كورس الخارجية الأمريكية وجامعة بنسلفانيا مجاناً](https://coursera.org)")
-    st.markdown("[🇬🇧 اضغط هنا لفتح منصة اختبار المستوى والدراسة التفاعلية من British Council مجاناً](https://britishcouncil.org)")
-
-elif menu == "📜 بوابة الشهادات المعتمدة":
-    st.subheader("📜 نظام التوثيق وإصدار الشهادات الأكاديمية الفورية")
-    student_name = st.text_input("اكتب اسمك الثلاثي باللغة الإنجليزية بدقة:")
-    
-    if st.button("اصدار وتوليد الشهادة الفاخرة 📄"):
-        if student_name:
-            st.balloons()
-            random_id = random.randint(50000, 99999)
-            current_date = datetime.now().strftime("%Y-%m-%d")
-            
-            # عرض الشهادة الاحترافي الجديد والآمن تماماً من أخطاء الترجمة وعلامات الاقتباس
-            st.success("🎉 تم توليد واعتماد شهادتك الأكاديمية بنجاح:")
-            st.code(f"==================================================\n"
-                    f"          AL-SAEEDA INTERNATIONAL ACADEMY         \n"
-                    f"    FIRST INTERACTIVE AI PLATFORM IN YEMEN       \n"
-                    f"==================================================\n\n"
-                    f"CERTIFICATE OF ACHIEVEMENT\n\n"
-                    f"This credential is proudly conferred upon:\n"
-                    f"👉 {student_name.upper()} 👈\n\n"
-                    f"For successfully completing the Advanced Interactive\n"
-                    f"English Course and Speech Pronunciation Evaluation via AI.\n\n"
-                    f"--------------------------------------------------\n"
-                    f"Date of Issue: {current_date} | ID: YEM-AI-{random_id}\n"
-                    f"==================================================")
-        else:
-            st.warning("يرجى كتابة الاسم باللغة الإنجليزية أولاً.")
+    st.markdown("[🇺🇸 اضغط هنا للتسجيل الفوري في كورس الخارجية الأمريكية وجامعة بنسلفانيا مجانا] (https://coursera.org)")
+    st.markdown("[🇬🇧 اضغط هنا لفتح منصة اختبار المستوى والدراسة التفاعلية من British Council مجانا] (https://britishcouncil.org)")
