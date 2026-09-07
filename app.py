@@ -15,7 +15,7 @@ else:
 if GENAI_API_KEY and GENAI_API_KEY != "ضع_مفتاح_جوجل_الخاص_بك_هنا":
     genai.configure(api_key=GENAI_API_KEY)
 
-# 🎨 Modern CSS UI
+# Modern CSS UI
 st.markdown("""
 <style>
     @import url('https://googleapis.com');
@@ -32,7 +32,7 @@ st.markdown("""
 </style>
 """, unsafe_allowed_html=True)
 
-# 🗺️ Main Header
+# Main Header
 st.markdown("""
 <div class="hero-section">
     <div class="main-title">🇾🇪 أكاديمية السعيدة الدولية للغات</div>
@@ -40,7 +40,7 @@ st.markdown("""
 </div>
 """, unsafe_allowed_html=True)
 
-# 3. Sidebar Menu
+# Sidebar Menu
 st.sidebar.markdown("### 🌐 لوحة التحكم التعليمية")
 user_type = st.sidebar.radio("🎯 الفئة المستهدفة الحالية:", ["🧸 قسم الأطفال والناشئين", "💼 قسم الكبار والمحترفين"])
 menu = st.sidebar.selectbox("📂 انتقل إلى:", ["🗣️ بوت التحدث وتصحيح النطق", "📚 المكتبة الذهبية العالمية", "📜 بوابة الشهادات المعتمدة"])
@@ -85,7 +85,8 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
         
     st.warning(f"🎙️ الجملة المطلوب قراءتها الآن بصوتك: **{test_sentence}**")
     
-    st.components.v1.html(f"""
+    # واجهة زر المايك مع عزل الأقواس المتعرجة برمجياً لعدم كسر الكود
+    mic_js = f"""
     <div style="text-align: center; font-family: 'Cairo', sans-serif; margin-top: 10px;">
         <button id="micBtn" style="background-color: #17b978; color: white; border: none; padding: 15px 35px; font-size: 16px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(23,185,120,0.3); transition: 0.3s;">
             🎤 اضغط هنا وتحدث بالجملة بوضوح
@@ -132,7 +133,8 @@ if menu == "🗣️ بوت التحدث وتصحيح النطق":
         }});
     }}
     </script>
-    """, height=220)
+    """
+    st.components.v1.html(mic_js, height=220)
 
 elif menu == "📚 المكتبة الذهبية العالمية":
     st.subheader("📚 المناهج الحصرية المعتمدة عالمياً ومجاناً 100%")
@@ -164,6 +166,7 @@ elif menu == "📜 بوابة الشهادات المعتمدة":
             random_id = random.randint(50000, 99999)
             current_date = datetime.now().strftime("%Y-%m-%d")
             
+            # تم إصلاح أخطاء علامات الاقتباس والأقواس المتعرجة هنا جذرياً
             certificate_html = f"""
             <div style="border:15px double #1e3d59; padding:40px; text-align:center; background-color:#fcfaf2; color:#1e3d59; direction: ltr; font-family: 'Times New Roman', serif; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                 <div style="text-align: center; margin-bottom: 10px;">
