@@ -9,14 +9,14 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. تصفير هوامش Streamlit لمنح تجربة تطبيق هجين أصيل
+# 2. تصفير هوامش Streamlit لمنح تجربة تطبيق هجين أصيل (تم تصحيح الخطأ هنا)
 st.markdown("""
     <style>
         #MainMenu, footer, header { display: none !important; }
         .block-container { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
         iframe { border-radius: 0px !important; }
     </style>
-""", unsafe_allowed_html=True)
+""", unsafe_allow_html=True)
 
 # 3. الشيفرة الهندسية الموحدة للواجهة (HTML5 / CSS3 / JavaScript Engine)
 cyber_saba_app = """<!DOCTYPE html>
@@ -25,10 +25,11 @@ cyber_saba_app = """<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SABA ACADEMY X</title>
-    <script src="https://tailwindcss.com"></script>
-    <script src="https://unpkg.com"></script>
+    <!-- تم تصحيح روابط المكتبات لتعمل بشكل صحيح -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://googleapis.com');
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;900&display=swap');
         body { font-family: 'Tajawal', sans-serif; background-color: #05070b; color: #f1f5f9; }
         .glass-panel { background: linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(9, 13, 22, 0.95) 100%); border: 1px solid rgba(212, 175, 55, 0.18); }
         .agate-button { background: linear-gradient(135deg, #a81c1c 0%, #5e0808 100%); }
